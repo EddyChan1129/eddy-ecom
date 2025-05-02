@@ -33,9 +33,10 @@ interface CreateFeedbackParams {
 }
 
 interface User {
+  id: string;
   name: string;
   email: string;
-  id: string;
+  role?: "admin" | "user"; // ✅ 加入這行，optional string enum
 }
 
 interface InterviewCardProps {

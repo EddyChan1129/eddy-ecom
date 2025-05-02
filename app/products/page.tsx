@@ -1,17 +1,10 @@
-
+// app/products/page.tsx
+import { getProducts, isAuthenticated, isAdmin } from "@/lib/actions/auth.action";
 import { ProductList } from "@/components/product-list";
-import { getProducts } from "@/lib/actions/auth.action";
 
 export default async function ProductsPage() {
+  const products = await getProducts();
+  const isAdminLogin = await isAdmin();
 
-  const result = await getProducts();
-
-  return (
-    <div className="pb-8">
-      <h1 className="text-3xl font-bold leading-none tracking-tight text-foreground text-center mb-8">
-        All Products
-      </h1>
-      <ProductList products={result} />
-    </div> 
-  );
+  return <ProductList products={products} isAdmin={isAdminLogin} />;
 }

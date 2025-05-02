@@ -1,12 +1,13 @@
 "use client";
-import { ProductCard } from "./product-card";
 import { useState } from "react";
+import { ProductCard } from "./product-card";
 
 interface ProductListProps {
   products: Product[];
+  isAdmin: boolean;
 }
 
-export const ProductList = ({ products }: ProductListProps) => {
+export const ProductList = ({ products, isAdmin }: ProductListProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const filteredProducts = products.filter((product) => {
@@ -31,7 +32,7 @@ export const ProductList = ({ products }: ProductListProps) => {
       <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filteredProducts.map((product) => (
           <li key={product.id}>
-            <ProductCard product={product} />
+            <ProductCard product={product} isAdmin={isAdmin} />
           </li>
         ))}
       </ul>

@@ -40,6 +40,7 @@ export default async function Home() {
                 className="rounded-lg object-cover transition-transform duration-500 ease-in-out transform hover:scale-105"
                 priority
               />
+
             </div>
           ) : (
             <div className="w-[450px] h-[450px] flex items-center justify-center bg-gray-300 text-gray-600 rounded">

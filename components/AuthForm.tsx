@@ -1,23 +1,24 @@
 "use client";
 
-import {z} from "zod";
+import { z } from "zod";
 import Link from "next/link";
 import Image from "next/image";
-import {toast} from "sonner";
-import {auth} from "@/firebase/client";
-import {useForm} from "react-hook-form";
-import {useRouter} from "next/navigation";
-import {zodResolver} from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { auth } from "@/firebase/client";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
 } from "firebase/auth";
 
-import {Form} from "@/components/ui/form";
-import {Button} from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 
-import {signIn, signUp} from "@/lib/actions/auth.action";
+import { signIn, signOut, signUp } from "@/lib/actions/auth.action";
 import FormField from "./FormField";
 
 const authFormSchema = (type: FormType) => {
@@ -28,7 +29,9 @@ const authFormSchema = (type: FormType) => {
     });
 };
 
-const AuthForm = ({type}: { type: FormType }) => {
+
+
+const AuthForm = ({ type }: { type: FormType }) => {
     const router = useRouter();
 
     const formSchema = authFormSchema(type);
@@ -41,12 +44,17 @@ const AuthForm = ({type}: { type: FormType }) => {
         },
     });
 
+    const handleLogout = async () => {
+        await signOut();       // 這會刪除 cookie（Server Action）
+        router.push("/"); // 或 "/"
+    };
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         try {
             if (type === "sign-up") {
                 alert("Submitting form");
 
-                const {name, email, password} = data;
+                const { name, email, password } = data;
 
                 const userCredential = await createUserWithEmailAndPassword(
                     auth,
@@ -71,7 +79,7 @@ const AuthForm = ({type}: { type: FormType }) => {
                 toast.success("Account created successfully. Please sign in.");
                 router.push("/sign-in");
             } else {
-                const {email, password} = data;
+                const { email, password } = data;
 
                 const userCredential = await signInWithEmailAndPassword(
                     auth,
@@ -103,9 +111,12 @@ const AuthForm = ({type}: { type: FormType }) => {
 
     return (
         <div className="card-border lg:min-w-[566px]">
+            <Button onClick={handleLogout}>
+                logout
+            </Button>
             <div className="flex flex-col gap-6 card py-14 px-10">
                 <div className="flex flex-row gap-2 justify-center">
-                    <Image src="/logo.svg" alt="logo" height={32} width={38}/>
+                    <Image src="/logo.svg" alt="logo" height={32} width={38} />
                     <h2 className="text-primary-100">PrepWise</h2>
                 </div>
 
@@ -158,6 +169,7 @@ const AuthForm = ({type}: { type: FormType }) => {
                     </Link>
                 </p>
             </div>
+
         </div>
     );
 };

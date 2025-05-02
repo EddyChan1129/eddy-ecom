@@ -29,7 +29,7 @@ export const ProductDetail = ({ product }: Props) => {
     const interval = setInterval(() => {
       const length = product.images?.length || 1;
       setCurrent((prev) => (prev + 1) % length);
-    }, 1000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [product.images?.length]);
@@ -47,13 +47,13 @@ export const ProductDetail = ({ product }: Props) => {
   return (
     <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-center">
       {product.images && product.images[current] && (
-        <div className="relative h-96 w-full md:w-1/2 rounded-lg overflow-hidden">
+        <div className="relative h-96 w-full md:w-1/2 rounded-lg overflow-hidden items-center flex"> 
           <CldImage
             src={product.images[current].public_id}
             alt={product.name}
-            width={960}
+            width={600}
             height={600}
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="650px"
             className="transition duration-300 hover:opacity-90 object-cover"
             priority
           />

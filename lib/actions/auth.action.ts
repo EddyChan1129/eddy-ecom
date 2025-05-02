@@ -198,3 +198,12 @@ export async function isAuthenticated() {
   const user = await getCurrentUser();
   return !!user;
 }
+
+// check if the user is admin
+export async function isAdmin() {
+  const user = await getCurrentUser();
+  if (!user) return false;
+
+  // Check if the user is an admin
+  return user.role === "admin";
+}
