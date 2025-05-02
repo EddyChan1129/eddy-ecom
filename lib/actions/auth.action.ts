@@ -111,28 +111,27 @@ export async function getProducts(): Promise<Product[]> {
   const productList = snapshot.docs.map((doc) => {
     const data = doc.data();
 
+    // ✅ Filter 掉 signature 唔啱嘅圖片
     const images = (data.images || []).filter((img: any) => {
       const expectedSig = cloudinary.v2.utils.api_sign_request(
         {
           public_id: img.public_id,
           version: img.version,
         },
-        process.env.CLOUDINARY_API_SECRET! // ✅ 直接用 env
+        process.env.CLOUDINARY_API_SECRET!
       );
       return expectedSig === img.signature;
     });
 
-    const imageUrls = images.map((img: any) =>
-      cloudinary.v2.url(img.public_id, {
-        version: img.version,
-        secure: true,
-      })
-    );
-
+    // ✅ 唔再轉 URL，只 pass public_id 等 metadata
     return {
       id: doc.id,
       ...data,
-      images: imageUrls, // ✅ string[]
+      images: images.map((img: any) => ({
+        public_id: img.public_id,
+        version: img.version,
+        format: img.format,
+      })),
     };
   });
 
@@ -157,19 +156,13 @@ export async function getProductById(id: string): Promise<Product | null> {
     return expectedSig === img.signature;
   });
 
-  const imageUrls = images.map((img: any) =>
-    cloudinary.v2.url(img.public_id, {
-      version: img.version,
-      secure: true,
-    })
-  );
-
   return {
     id: productDoc.id,
     ...data,
-    images: imageUrls, // ✅ string[]
+    images, // ✅ 保留 public_id, version 等原始資料
   } as Product;
 }
+
 
 // Get current user from session cookie
 export async function getCurrentUser(): Promise<User | null> {

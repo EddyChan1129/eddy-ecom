@@ -1,35 +1,25 @@
-// components/product-card.tsx
 import Link from "next/link";
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 
-interface Product {
-  id: string;
-  name: string;
-  description?: string;
-  images?: string[];
-  price: number;
-}
-
-interface Props {
+interface ProductCardProps {
   product: Product;
 }
 
-export const ProductCard = ({ product }: Props) => {
+export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Link href={`/products/${product.id}`} className="block h-full">
       <Card className="group hover:shadow-2xl transition duration-300 py-0 h-full flex flex-col border-gray-300 gap-0">
-        {product.images && product.images[0] && (
+        {product.images?.[0]?.public_id && (
           <div className="relative h-60 w-full">
-            <Image
-              src={product.images[0]}
+            <CldImage
+              src={product.images[0].public_id}
+              width="800"
+              height="400"
+              sizes="(max-width: 768px) 100vw, 33vw"
               alt={product.name}
-              fill
-              style={{ objectFit: "cover" }}
-              sizes="(max-width: 768px) 100vw, 50vw"
               className="group-hover:opacity-90 transition-opacity duration-300 rounded-t-lg"
-              priority
             />
           </div>
         )}

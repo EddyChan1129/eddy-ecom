@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Carousel } from "@/components/carousel";
 import { getProducts } from "@/lib/actions/auth.action";
+import CldImageWrapper from "@/components/CldImageWrapper";
 
 export default async function Home() {
   const products = await getProducts();
@@ -30,18 +30,17 @@ export default async function Home() {
 
           {featuredImage ? (
             <div className="relative w-[450px] h-[450px]">
-              <Image
-                alt="Hero Image"
-                src={featuredImage}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: "cover" }}
-                className="rounded"
+
+              <CldImageWrapper
+                src={featuredImage.public_id}
+                alt="Featured Product"
+                width={450}
+                height={450}
+                sizes="(max-width: 768px) 100vw, 450px"
+                className="rounded-lg object-cover transition-transform duration-500 ease-in-out transform hover:scale-105"
                 priority
               />
             </div>
-
-
           ) : (
             <div className="w-[450px] h-[450px] flex items-center justify-center bg-gray-300 text-gray-600 rounded">
               No image

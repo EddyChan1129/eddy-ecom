@@ -102,6 +102,11 @@ interface Product {
   id: string;
   name: string;
   description: string;
-  images: string[];
   price: number;
+  images?: {
+    public_id: string;
+    version?: string;   // Optional: 如果你想用 Cloudinary 的 version control
+    format?: string;    // Optional: 如有需要知道是 jpg / webp 等
+  }[];
 }
+

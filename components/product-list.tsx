@@ -1,31 +1,20 @@
 "use client";
-
 import { ProductCard } from "./product-card";
 import { useState } from "react";
 
-interface Product {
-  id: string;
-  name: string;
-  description?: string;
-  images?: string[];
-  price: number;
-}
-
-interface Props {
+interface ProductListProps {
   products: Product[];
 }
 
-export const ProductList = ({ products }: Props) => {
+export const ProductList = ({ products }: ProductListProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const filteredProduct = products.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     const term = searchTerm.toLowerCase();
-    const nameMatch = product.name.toLowerCase().includes(term);
-    const descriptionMatch = product.description
-      ? product.description.toLowerCase().includes(term)
-      : false;
-
-    return nameMatch || descriptionMatch;
+    return (
+      product.name.toLowerCase().includes(term) ||
+      product.description?.toLowerCase().includes(term)
+    );
   });
 
   return (
@@ -40,8 +29,8 @@ export const ProductList = ({ products }: Props) => {
         />
       </div>
       <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredProduct.map((product, key) => (
-          <li key={key}>
+        {filteredProducts.map((product) => (
+          <li key={product.id}>
             <ProductCard product={product} />
           </li>
         ))}
