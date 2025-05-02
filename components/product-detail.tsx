@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { useCartStore } from "@/store/cart-store";
+import { useEffect, useState } from "react";
 
 interface Props {
   product: {
@@ -20,6 +21,18 @@ export const ProductDetail = ({ product }: Props) => {
   const cartItem = items.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
 
+  const [current, setCurrent] = useState<number>(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const length = product.images?.length || 1;
+      setCurrent((prev) => (prev + 1) % length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [product.images?.length]);
+
+
   const onAddItem = () => {
     addItem({
       id: product.id,
@@ -32,10 +45,10 @@ export const ProductDetail = ({ product }: Props) => {
 
   return (
     <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-center">
-      {product.images && product.images[0] && (
+      {product.images && product.images[current] && (
         <div className="relative h-96 w-full md:w-1/2 rounded-lg overflow-hidden">
           <Image
-            src={product.images[0]}
+            src={product.images[current]}
             alt={product.name}
             fill
             style={{ objectFit: "cover" }}

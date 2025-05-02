@@ -5,8 +5,16 @@ import { Card, CardContent, CardTitle } from "./ui/card";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
+interface Product {
+  id: string;
+  name: string;
+  description?: string;
+  images?: string[];
+  price: number;
+}
+
 interface Props {
-  products: Stripe.Product[];
+  products: Product[];
 }
 
 export const Carousel = ({ products }: Props) => {
@@ -22,7 +30,7 @@ export const Carousel = ({ products }: Props) => {
 
   const currentProduct = products[current];
 
-  const price = currentProduct.default_price as Stripe.Price;
+  const price = currentProduct.price
 
   return (
     <Card className="relative overflow-hidden rounded-lg shadow-md border-gray-300">
@@ -41,9 +49,9 @@ export const Carousel = ({ products }: Props) => {
         <CardTitle className="text-3xl font-bold text-white mb-2">
           {currentProduct.name}
         </CardTitle>
-        {price && price.unit_amount && (
+        {price && (
           <p className="text-xl text-white">
-            ${(price.unit_amount / 100).toFixed(2)}
+            ${price.toFixed(2)}
           </p>
         )}
       </CardContent>
