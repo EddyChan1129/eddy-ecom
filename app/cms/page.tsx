@@ -1,50 +1,61 @@
 "use client";
+
 import { uploadImage } from '@/lib/actions/product.action';
-import { CldUploadWidget } from 'next-cloudinary';
+import { CldUploadWidget, CldImage } from 'next-cloudinary';
 import { useState } from 'react';
+import { deleteImageFromCloudinary } from '@/lib/actions/product.action';
+
+interface UploadedImage {
+  public_id: string;
+  version: number;
+  signature: string;
+}
 
 export default function UploadWidget() {
-  const [publicIds, setPublicIds] = useState<string[]>([]);
-  const [versions, setVersions] = useState<number[]>([]);
-  const [signatures, setSignatures] = useState<string[]>([]);
+  const [images, setImages] = useState<UploadedImage[]>([]);
+
+  const handleRemoveImage = async (publicId: string) => {
+    setImages((prev) => prev.filter((img) => img.public_id !== publicId));
+    // Remove cloudinary image if needed
+    await deleteImageFromCloudinary(publicId);
+  };
 
   return (
     <form action={uploadImage} method="POST" className="flex flex-col gap-4">
-      <label htmlFor="name" className="text-sm font-medium text-gray-700">
+      {/* Basic fields */}
+      <label>
         Name
         <input
-          type="text"
           name="name"
-          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          placeholder="Enter product name"
+          type="text"
           required
+          className="block w-full border p-2 rounded"
         />
       </label>
-      <label htmlFor="description" className="text-sm font-medium text-gray-700">
+      <label>
         Description
         <textarea
           name="description"
-          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          placeholder="Enter product description"
-          rows={4}
           required
+          className="block w-full border p-2 rounded"
         />
       </label>
-      <label htmlFor="price" className="text-sm font-medium text-gray-700">
+      <label>
         Price
         <input
-          type="number"
           name="price"
-          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          placeholder="Enter product price"
+          type="number"
           required
+          className="block w-full border p-2 rounded"
         />
       </label>
+
+      {/* Upload button */}
       <CldUploadWidget
         uploadPreset="preset1"
         options={{
           folder: "sample",
-          multiple: true // ✅ 允許多圖上傳
+          multiple: true
         }}
         onSuccess={(result, widget) => {
           const info = result.info as {
@@ -52,16 +63,19 @@ export default function UploadWidget() {
             version: number;
             signature: string;
           };
-
-          console.log("Upload result:", info);
-          setPublicIds((prev) => [...prev, info.public_id]);
-          setVersions((prev) => [...prev, info.version]);
-          setSignatures((prev) => [...prev, info.signature]);
+          setImages((prev) => [
+            ...prev,
+            {
+              public_id: info.public_id,
+              version: info.version,
+              signature: info.signature,
+            },
+          ]);
         }}
         onQueuesEnd={(result, { widget }) => {
           widget.close();
         }}
-        signatureEndpoint="/upload-photo"
+        signatureEndpoint="/update-photo"
       >
         {({ open }) => (
           <button
@@ -70,23 +84,48 @@ export default function UploadWidget() {
               e.preventDefault();
               open();
             }}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
           >
             Upload Image(s)
           </button>
         )}
       </CldUploadWidget>
 
-      {/* 👇 提交多張圖片的欄位 */}
-      {publicIds.map((id, i) => (
-        <div key={i}>
-          <input type="hidden" name="public_id[]" value={id} />
-          <input type="hidden" name="version[]" value={versions[i].toString()} />
-          <input type="hidden" name="signature[]" value={signatures[i]} />
-        </div>
-      ))}
+      {/* Image previews with delete buttons */}
+      <div className="flex gap-4 flex-wrap justify-center">
+        {images.map((img) => (
+          <div key={img.public_id} className="relative w-32 h-32 bg-red-900">
+            <CldImage
+              src={img.public_id}
+              width={300}
+              height={300}
+              alt="preview"
+              priority
+              className="h-32 w-auto rounded object-cover " // ✅ 加 w-auto
+            />
 
-      <button type="submit" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+
+            <button
+              type="button"
+              onClick={() => handleRemoveImage(img.public_id)}
+              className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded px-2 py-1"
+            >
+              ✕
+            </button>
+
+            {/* Hidden fields to submit */}
+            <input type="hidden" name="public_id[]" value={img.public_id} />
+            <input type="hidden" name="version[]" value={img.version.toString()} />
+            <input type="hidden" name="signature[]" value={img.signature} />
+          </div>
+        ))}
+      </div>
+
+      {/* Submit button */}
+      <button
+        type="submit"
+        className="bg-green-600 text-white px-4 py-2 rounded"
+      >
         Submit All
       </button>
     </form>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Carousel } from "@/components/carousel";
-import { getProducts } from "@/lib/actions/auth.action";
+import { getProducts } from "@/lib/actions/product.action";
 import CldImageWrapper from "@/components/CldImageWrapper";
 
 export default async function Home() {

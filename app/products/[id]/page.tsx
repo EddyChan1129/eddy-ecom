@@ -1,5 +1,5 @@
 import { ProductDetail } from "@/components/product-detail";
-import { getProductById } from "@/lib/actions/auth.action";
+import { getProductById } from "@/lib/actions/product.action";
 export default async function ProductPage(props: {
   params: Promise<{ id: string }>;
 }) {

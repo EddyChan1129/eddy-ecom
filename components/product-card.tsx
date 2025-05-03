@@ -2,6 +2,9 @@ import Link from "next/link";
 import { CldImage } from "next-cloudinary";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
+import { deleteProduct } from "@/lib/actions/product.action";
+import { deleteImageFromCloudinary } from "@/lib/actions/product.action";
 
 interface ProductCardProps {
   product: Product;
@@ -9,45 +12,56 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
+
+  const router = useRouter(); // ✅ 需要 router
+
+  const handleDelete = async () => {
+    try {
+      for (const img of product.images || []) {
+        await deleteImageFromCloudinary(img.public_id);
+      }
+      await deleteProduct(product.id);
+      router.refresh(); // ✅ 或 router.push("/products") 如需跳轉
+    } catch (error) {
+      console.error("Delete failed:", error);
+      alert("Failed to delete product.");
+    }
+  };
+
   return (
     <Card className="group hover:shadow-2xl transition duration-300 py-0 h-full flex flex-col border-gray-300 gap-0">
       <div className="relative h-60 w-full">
         <div className="absolute inset-0 bg-gray-200 rounded-t-lg overflow-hidden flex items-center justify-center">
           <CldImage
             src={product.images?.[0]?.public_id || "default_placeholder"}
-            width="400"
-            height="250"
-            sizes="650px"
-            className="rounded-t-lg object-cover transition duration-300 group-hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, 450px"
+            className="object-cover rounded-t-lg"
             alt={product.name}
+            priority
           />
         </div>
-     
 
         {isAdmin && (
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-10 ">
-            <Button
-              variant="outline"
-              className="bg-black/20 text-gray-900"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                // handleEdit(product.id)
-              }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
-                <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
-                <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
-              </svg>
-
-            </Button>
+            <Link href={`/admin/products/${product.id}`}>
+              <Button
+                variant="outline"
+                className="bg-black/20 text-white"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
+                  <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
+                  <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
+                </svg>
+              </Button>
+            </Link>
             <Button
               variant="destructive"
               className="bg-red-500/80 text-white"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                // handleDelete(product.id)
+                handleDelete()
               }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
