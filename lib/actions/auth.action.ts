@@ -2,6 +2,7 @@
 
 import { auth, db } from "@/firebase/admin";
 import { cookies } from "next/headers";
+import { useAdminStore } from "@/store/auth-store";
 
 // Session duration (1 week)
 const SESSION_DURATION = 60 * 60 * 24 * 7;
@@ -140,6 +141,8 @@ export async function isAdmin() {
   const user = await getCurrentUser();
   if (!user) return false;
 
+  useAdminStore.getState().setIsAdmin(true);
   // Check if the user is an admin
   return user.role === "admin";
+
 }

@@ -46,8 +46,7 @@ export const Carousel = ({ products }: Props) => {
           <CldImage
             src={currentProduct.images[0].public_id}
             alt={currentProduct.name}
-            width={800}
-            height={320}
+            fill
             sizes="(max-width: 768px) 100vw, 800px"
             className="transition-opacity duration-500 ease-in-out object-cover w-full h-full"
           />

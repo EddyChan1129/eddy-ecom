@@ -8,8 +8,8 @@ import { auth } from "@/firebase/client";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-
+import { useAdminStore, useAuthStore } from "@/store/auth-store";
+import { isAdmin } from "@/lib/actions/auth.action";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -28,8 +28,6 @@ const authFormSchema = (type: FormType) => {
         password: z.string().min(3),
     });
 };
-
-
 
 const AuthForm = ({ type }: { type: FormType }) => {
     const router = useRouter();
@@ -99,6 +97,12 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 });
 
                 toast.success("Signed in successfully.");
+                useAuthStore.getState().setLoggedIn(true);
+
+                // ✅ 立即 check admin status
+                const isAdminUser = await isAdmin();
+                useAdminStore.getState().setIsAdmin(isAdminUser);
+
                 router.push("/");
             }
         } catch (error) {
@@ -116,7 +120,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
             </Button>
             <div className="flex flex-col gap-6 card py-14 px-10">
                 <div className="flex flex-row gap-2 justify-center">
-                    <Image src="/logo.svg" alt="logo" height={32} width={38} />
+                    <Image src="/logo.svg" alt="logo" height={32} width={38} className="h-auto" // Tailwind 寫法
+                    />
                     <h2 className="text-primary-100">PrepWise</h2>
                 </div>
 

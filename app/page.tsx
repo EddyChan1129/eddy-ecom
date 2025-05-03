@@ -11,45 +11,43 @@ export default async function Home() {
 
   return (
     <div>
-      <section className="rounded bg-neutral-100 py-8 sm:py-12">
-        <div className="mx-auto grid grid-cols-1 items-center justify-items-center gap-8 px-8 sm:px-16 md:grid-cols-2">
-          <div className="max-w-md space-y-4">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Welcome to My Ecommerce
+      <section className="bg-neutral-100 py-12 sm:py-16">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 md:grid-cols-2 items-center justify-items-center gap-12 px-6 sm:px-12">
+          <div className="w-full max-w-md space-y-6 text-center md:text-left">
+            <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 md:text-5xl">
+              Welcome to <span className="text-blue-600">My Ecommerce</span>
             </h2>
-            <p className="text-neutral-600">
-              Discover the latest products at the best prices.
+            <p className="text-lg text-gray-600">
+              Discover the latest products at unbeatable prices.
             </p>
             <Button
               asChild
               variant="default"
-              className="inline-flex items-center justify-center rounded-full px-6 py-3 bg-black text-white"
+              className="rounded-full bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition"
             >
               <Link href="/products">Browse All Products</Link>
             </Button>
           </div>
 
           {featuredImage ? (
-            <div className="relative w-[450px] h-[450px]">
-
+            <div className="relative w-[320px] h-[380px] md:w-[350px] md:h-[450px] lg:w-[450px] lg:h-[500px] shadow-xl rounded-xl overflow-hidden">
               <CldImageWrapper
                 src={featuredImage.public_id}
                 alt="Featured Product"
-                width={450}
-                height={450}
-                sizes="(max-width: 768px) 100vw, 450px"
-                className="rounded-lg object-cover transition-transform duration-500 ease-in-out transform hover:scale-105"
+                fill
+                sizes="(max-width: 768px) 90vw, 450px"
+                className="object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                 priority
               />
-
             </div>
           ) : (
-            <div className="w-[450px] h-[450px] flex items-center justify-center bg-gray-300 text-gray-600 rounded">
+            <div className="w-[450px] h-[450px] flex items-center justify-center bg-gray-300 text-gray-600 rounded-lg">
               No image
             </div>
           )}
         </div>
       </section>
+
 
       <section className="py-8">
         <Carousel products={products.slice(0, 5)} />

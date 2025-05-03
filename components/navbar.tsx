@@ -9,50 +9,80 @@ import {
 import { useCartStore } from "@/store/cart-store";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { isAdmin as authAdmin, isAuthenticated, signOut } from "@/lib/actions/auth.action";
+import { useAuthStore, useAdminStore } from "@/store/auth-store"; // ✅ 引入
+
 export const Navbar = () => {
-
-
-
-  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [admin, setAdmin] = useState(false);
   const { items } = useCartStore();
   const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
 
+  const isLogin = useAuthStore((state) => state.isLoggedIn);
+  const setIsLogin = useAuthStore((state) => state.setLoggedIn);
+  const isAdmin = useAdminStore((state) => state.isAdmin);
+  const setIsAdmin = useAdminStore((state) => state.setIsAdmin);
+
+  // Check login & admin status once on mount
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setMobileOpen(false);
-      }
+    const checkUser = async () => {
+      const login = await isAuthenticated();
+      setIsLogin(login);
+
+      const adminResult = await authAdmin();
+      setIsAdmin(adminResult); // ✅ 記錄 admin 狀態
     };
 
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
+    checkUser();
   }, []);
 
+  const logout = async () => {
+    await signOut();
+    setIsLogin(false); // ✅ 即時登出
+    setIsAdmin(false); // ✅ 清除 admin 狀態
+
+  };
+
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
-        <Link href="/" className="hover:text-blue-600">
+    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <div className="container mx-auto flex items-center justify-between px-6 py-4">
+        <Link href="/" className="text-xl font-bold tracking-tight text-gray-800 hover:text-blue-600 transition">
           My Ecommerce
         </Link>
-        <div className="hidden md:flex space-x-6">
-          <Link href="/">Home</Link>
-          <Link href="/products" className="hover:text-blue-600">
-            Products
-          </Link>
-          <Link href="/checkout" className="hover:text-blue-600">
-            Checkout
-          </Link>
+        <div className="hidden md:flex items-center space-x-8 text-gray-700 text-sm font-medium">
+          <Link href="/" className="hover:text-blue-600 hover:underline transition">Home</Link>
+          <Link href="/products" className="hover:text-blue-600 hover:underline transition">Products</Link>
+          <Link href="/checkout" className="hover:text-blue-600 hover:underline transition">Checkout</Link>
+          {isAdmin && (
+            <Link href="/cms" className="text-blue-700 font-semibold hover:underline">
+              CMS
+            </Link>
+          )}
+
         </div>
+
         <div className="flex items-center space-x-4">
+          {!isLogin ? (
+            <Link href="/sign-in" className="hidden md:block">
+              <Button className="rounded-full bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 transition">
+                Login
+              </Button>
+            </Link>
+          ) : (
+            <Button onClick={logout} className="hidden md:block rounded-full bg-gray-800 hover:bg-gray-700 text-white px-5 py-2 transition">
+              Logout
+            </Button>
+          )}
+
           <Link href="/checkout" className="relative">
-            <ShoppingCartIcon className="h-6 w-6" />
+            <ShoppingCartIcon className="h-6 w-6 text-gray-700" />
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                 {cartCount}
               </span>
             )}
           </Link>
+
           <Button
             variant="ghost"
             className="md:hidden"
@@ -66,27 +96,43 @@ export const Navbar = () => {
           </Button>
         </div>
       </div>
+
       {mobileOpen && (
-        <nav className="md:hidden bg-white shadow-md">
-          <ul className="flex flex-col p-4 space-y-2">
-            <li>
-              <Link href="/" className="block hover:text-blue-600">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/products" className="block hover:text-blue-600">
-                Products
-              </Link>
-            </li>
-            <li>
-              <Link href="/checkout" className="block hover:text-blue-600">
-                Checkout
-              </Link>
-            </li>
+        <div className="md:hidden bg-white border-t border-gray-200 shadow-inner">
+          <ul className="flex flex-col p-6 space-y-4 text-gray-800 text-base">
+            <li><Link href="/" className="hover:text-blue-600" onClick={() => setMobileOpen((prev) => !prev)}
+            >Home</Link></li>
+            <li><Link href="/products" className="hover:text-blue-600" onClick={() => setMobileOpen((prev) => !prev)}
+            >Products</Link></li>
+            <li><Link href="/checkout" className="hover:text-blue-600" onClick={() => setMobileOpen((prev) => !prev)}
+            >Checkout</Link></li>
+            {!isLogin ? (
+              <li>
+                <Link href="/sign-in" className="text-blue-600 font-semibold" onClick={() => setMobileOpen((prev) => !prev)}
+                >Login</Link>
+              </li>
+            ) : (
+              <li>
+                <Button className="text-gray-800 font-semibold" onClick={
+                  () => {
+                    setMobileOpen((prev) => !prev) 
+                    logout();
+                  }}
+                >Logout</Button>
+              </li>
+            )}
+            {isAdmin && (
+              <li>
+                <Link href="/cms" className="font-semibold text-blue-600" onClick={() => setMobileOpen(false)}>
+                  CMS
+                </Link>
+              </li>
+            )}
+
           </ul>
-        </nav>
+        </div>
       )}
     </nav>
+
   );
 };
