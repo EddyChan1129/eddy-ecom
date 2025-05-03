@@ -109,7 +109,7 @@ export default function EditProductClient({ productId }: Props) {
                     folder: "sample",
                     multiple: true // ✅ 允許多圖上傳
                 }}
-                onSuccess={(result, widget) => {
+                onSuccess={(result, _widget) => {
                     const info = result.info as {
                         public_id: string;
                         version: number;
@@ -132,7 +132,7 @@ export default function EditProductClient({ productId }: Props) {
                 }}
 
 
-                onQueuesEnd={(result, { widget }) => {
+                onQueuesEnd={(_result, { widget }) => {
                     widget.close();
                 }}
                 signatureEndpoint="/update-photo"

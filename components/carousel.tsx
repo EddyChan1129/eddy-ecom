@@ -19,6 +19,16 @@ interface Props {
 export const Carousel = ({ products }: Props) => {
   const [current, setCurrent] = useState<number>(0);
 
+
+  useEffect(() => {
+    if (products.length === 0) return;
+
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % products.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [products.length]);
+
   if (!products || products.length === 0) {
     return (
       <Card className="p-8 text-center text-gray-500">
@@ -26,13 +36,6 @@ export const Carousel = ({ products }: Props) => {
       </Card>
     );
   }
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % products.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [products.length]);
 
   const currentProduct = products[current];
 

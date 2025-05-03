@@ -57,7 +57,7 @@ export default function UploadWidget() {
           folder: "sample",
           multiple: true
         }}
-        onSuccess={(result, widget) => {
+        onSuccess={(result, _widget) => {
           const info = result.info as {
             public_id: string;
             version: number;
@@ -72,7 +72,7 @@ export default function UploadWidget() {
             },
           ]);
         }}
-        onQueuesEnd={(result, { widget }) => {
+        onQueuesEnd={(_result, { widget }) => {
           widget.close();
         }}
         signatureEndpoint="/update-photo"

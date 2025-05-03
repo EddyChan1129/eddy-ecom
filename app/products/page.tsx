@@ -1,5 +1,5 @@
 // app/products/page.tsx
-import { isAuthenticated, isAdmin } from "@/lib/actions/auth.action";
+import { isAdmin } from "@/lib/actions/auth.action";
 import { getProducts } from "@/lib/actions/product.action";
 import { ProductList } from "@/components/product-list";
 
