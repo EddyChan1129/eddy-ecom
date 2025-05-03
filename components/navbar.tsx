@@ -14,10 +14,8 @@ import { useAuthStore, useAdminStore } from "@/store/auth-store"; // ✅ 引入
 
 export const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [admin, setAdmin] = useState(false);
   const { items } = useCartStore();
   const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
-
   const isLogin = useAuthStore((state) => state.isLoggedIn);
   const setIsLogin = useAuthStore((state) => state.setLoggedIn);
   const isAdmin = useAdminStore((state) => state.isAdmin);
