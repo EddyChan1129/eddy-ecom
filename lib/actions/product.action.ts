@@ -15,7 +15,6 @@ export async function uploadProduct(formData: FormData) {
   const category = formData.get("category")  as string;
 
   const tags = formData.getAll("tags")  as string[]
-  const inStock = formData.get("inStock") !== null; // checkbox 有值就代表 true
   const inSale = formData.get("inSale") !== null;
 
   if (public_ids.length === 0) {
@@ -36,9 +35,10 @@ export async function uploadProduct(formData: FormData) {
     price,
     category: category.length > 0 ? category : null, // 如果沒有 category，就設為 null
     tags: tags.length > 0 ? tags : null, // 如果沒有 tags，就設為 null
-    inStock,
+    inStock: true,
     inSale,
     images,
+    createdAt: new Date().toISOString(),
   };
 
   await ref.set(productWithId); // 用 set() 放全個 object，包括 id
@@ -124,7 +124,7 @@ export const deleteImageFromCloudinary = async (publicId: string) => {
   });
 
   try {
-    const result = await cloudinary.v2.uploader.destroy(publicId);
+    const result = await cloudinary.v2.uploader.destroy(publicId,{ invalidate: true });
     console.log("✅ Cloudinary delete result:", result);
     return result;
   } catch (error) {

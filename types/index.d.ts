@@ -45,4 +45,6 @@ interface Product {
   tags?: string[] | null;
   inStock: boolean;
   inSale: boolean;
+  createdAt?: string; // Optional: 如果你想知道產品的創建時間
+  updatedAt?: string; // Optional: 如果你想知道產品的更新時間
 }
