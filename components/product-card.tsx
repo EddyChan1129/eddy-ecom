@@ -32,14 +32,15 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
     <Card className="group hover:shadow-2xl transition duration-300 py-0 h-full flex flex-col border-gray-300 gap-0">
       <div className="relative h-60 w-full">
         <div className="absolute inset-0 bg-gray-200 rounded-t-lg overflow-hidden flex items-center justify-center">
-          <CldImage
-            src={product.images?.[0]?.public_id || "default_placeholder"}
-            fill
-            sizes="(max-width: 768px) 100vw, 450px"
-            className="object-cover rounded-t-lg"
-            alt={product.name}
-            priority
-          />
+          {product.images?.[0]?.public_id &&
+            <CldImage
+              src={product.images?.[0]?.public_id}
+              fill
+              sizes="(max-width: 768px) 100vw, 450px"
+              className="object-cover rounded-t-lg"
+              alt={product.name}
+              priority
+            />}
         </div>
 
         {isAdmin && (

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCartStore } from "@/store/cart-store";
 import { checkoutAction } from "./checkout-action";
+import Link from "next/link";
 
 export default function CheckoutPage() {
   const { items, removeItem, addItem } = useCartStore();
@@ -67,6 +68,11 @@ export default function CheckoutPage() {
         <Button type="submit" variant="default" className="w-full">
           Proceed to Payment
         </Button>
+        <Link href={"/products"} className="mt-4 block">
+          <Button type="submit" variant="secondary" className="w-full cursor-pointer">
+            Continue Shopping
+          </Button>
+        </Link>
       </form>
     </div>
   );

@@ -4,8 +4,6 @@ import { db } from "@/firebase/admin";
 import { redirect } from "next/navigation";
 import { cloudinary } from "@/lib/cloudinary";
 
-
-
 export async function uploadProduct(formData: FormData) {
   const public_ids = formData.getAll("public_id[]") as string[];
   const versions = formData.getAll("version[]") as string[];
@@ -14,20 +12,19 @@ export async function uploadProduct(formData: FormData) {
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
   const price = Number(formData.get("price"));
-  const category = formData.get("category")  as string;
+  const category = formData.get("category") as string;
 
-  const tags = formData.getAll("tags")  as string[]
+  const tags = formData.getAll("tags") as string[];
   const inSale = formData.get("inSale") !== null;
 
-  if (public_ids.length === 0) {
-    throw new Error("No images uploaded");
-  }
-
-  const images = public_ids.map((id, i) => ({
-    public_id: id,
-    version: versions[i],
-    signature: signatures[i],
-  }));
+  const images =
+    public_ids.length > 0
+      ? public_ids.map((id, i) => ({
+          public_id: id,
+          version: versions[i],
+          signature: signatures[i],
+        }))
+      : []; // 如果冇圖就空 array
 
   const ref = db.collection("products").doc(); // 先 reserve ID
   const productWithId: Product = {
@@ -119,9 +116,10 @@ export const deleteProduct = async (id: string) => {
 };
 
 export const deleteImageFromCloudinary = async (publicId: string) => {
-
   try {
-    const result = await cloudinary.uploader.destroy(publicId,{ invalidate: true });
+    const result = await cloudinary.uploader.destroy(publicId, {
+      invalidate: true,
+    });
     console.log("✅ Cloudinary delete result:", result);
     return result;
   } catch (error) {

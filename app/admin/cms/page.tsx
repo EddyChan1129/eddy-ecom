@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label";
+import { categories, defaultTags } from "@/const";
 
 interface UploadedImage {
   public_id: string;
@@ -23,8 +24,6 @@ interface UploadedImage {
   signature: string;
 }
 
-const categories = ["Food", "Drink", "Snacks", "Health"]; // example
-const defaultTags = ["vegan", "spicy", "cold", "limited"];
 
 export default function UploadWidget() {
   const [images, setImages] = useState<UploadedImage[]>([]);
@@ -91,7 +90,7 @@ export default function UploadWidget() {
 
         {/* inSale */}
         <div className="flex items-center space-x-2">
-          <Checkbox id="terms" name="inSale" defaultChecked/>
+          <Checkbox id="terms" name="inSale" defaultChecked />
           <label
             htmlFor="terms"
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -169,7 +168,7 @@ export default function UploadWidget() {
           type="submit"
           className="bg-green-600"
         >
-          Submit All
+          Create Product
         </Button>
       </form>
     </div>

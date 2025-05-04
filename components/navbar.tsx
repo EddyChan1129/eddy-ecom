@@ -52,7 +52,7 @@ export const Navbar = () => {
           <Link href="/products" className="hover:text-blue-600 hover:underline transition">Products</Link>
           <Link href="/checkout" className="hover:text-blue-600 hover:underline transition">Checkout</Link>
           {isAdmin && (
-            <Link href="/cms" className="text-blue-700 font-semibold hover:underline">
+            <Link href="/admin/cms" className="text-blue-700 font-semibold hover:underline">
               CMS
             </Link>
           )}
@@ -111,7 +111,7 @@ export const Navbar = () => {
               </li>
             ) : (
               <li>
-                <Button className="text-gray-800 font-semibold" onClick={
+                <Button className="font-semibold" onClick={
                   () => {
                     setMobileOpen((prev) => !prev) 
                     logout();
@@ -121,7 +121,7 @@ export const Navbar = () => {
             )}
             {isAdmin && (
               <li>
-                <Link href="/cms" className="font-semibold text-blue-600" onClick={() => setMobileOpen(false)}>
+                <Link href="/admin/cms" className="font-semibold text-blue-600" onClick={() => setMobileOpen(false)}>
                   CMS
                 </Link>
               </li>
