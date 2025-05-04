@@ -4,6 +4,8 @@ import { Carousel } from "@/components/carousel";
 import { getProducts } from "@/lib/actions/product.action";
 import CldImageWrapper from "@/components/CldImageWrapper";
 
+export const revalidate = 0;
+
 export default async function Home() {
   const products = await getProducts();
   // const featuredImage = products[0]?.images?.[0];
@@ -41,7 +43,9 @@ export default async function Home() {
               />
             </div>
           ) : (
-            <div className="w-[450px] h-[450px] flex items-center justify-center bg-gray-300 text-gray-600 rounded-lg">
+            <div className="w-[450px] h-[450px] flex items-center justify-center bg-gray-300 text-gray-600 rounded-lg"
+              aria-label="No image available"
+            >
               No image
             </div>
           )}

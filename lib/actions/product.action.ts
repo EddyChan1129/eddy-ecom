@@ -2,7 +2,9 @@
 
 import { db } from "@/firebase/admin";
 import { redirect } from "next/navigation";
-import cloudinary from "cloudinary";
+import { cloudinary } from "@/lib/cloudinary";
+
+
 
 export async function uploadProduct(formData: FormData) {
   const public_ids = formData.getAll("public_id[]") as string[];
@@ -56,7 +58,7 @@ export async function getProducts(): Promise<Product[]> {
 
     // ✅ Filter 掉 signature 唔啱嘅圖片
     const images = (data.images || []).filter((img: any) => {
-      const expectedSig = cloudinary.v2.utils.api_sign_request(
+      const expectedSig = cloudinary.utils.api_sign_request(
         {
           public_id: img.public_id,
           version: img.version,
@@ -66,7 +68,7 @@ export async function getProducts(): Promise<Product[]> {
       return expectedSig === img.signature;
     });
 
-    // ✅ 唔再轉 URL，只 pass public_id 等 metadata
+    // 只 pass public_id 等 metadata
     return {
       id: doc.id,
       ...data,
@@ -89,7 +91,7 @@ export async function getProductById(id: string): Promise<Product | null> {
   const data = productDoc.data();
 
   const images = (data?.images || []).filter((img: any) => {
-    const expectedSig = cloudinary.v2.utils.api_sign_request(
+    const expectedSig = cloudinary.utils.api_sign_request(
       {
         public_id: img.public_id,
         version: img.version,
@@ -117,14 +119,9 @@ export const deleteProduct = async (id: string) => {
 };
 
 export const deleteImageFromCloudinary = async (publicId: string) => {
-  cloudinary.v2.config({
-    cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-  });
 
   try {
-    const result = await cloudinary.v2.uploader.destroy(publicId,{ invalidate: true });
+    const result = await cloudinary.uploader.destroy(publicId,{ invalidate: true });
     console.log("✅ Cloudinary delete result:", result);
     return result;
   } catch (error) {
