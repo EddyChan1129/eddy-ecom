@@ -4,17 +4,18 @@ import { db } from "@/firebase/admin";
 import { redirect } from "next/navigation";
 import cloudinary from "cloudinary";
 
-
-
-
 export async function uploadImage(formData: FormData) {
   const public_ids = formData.getAll("public_id[]") as string[];
   const versions = formData.getAll("version[]") as string[];
   const signatures = formData.getAll("signature[]") as string[];
+
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
   const price = Number(formData.get("price"));
-
+  const category = formData.get("category") as string;
+  const tags = formData.getAll("tags") as string[]; // ✅ multiple select
+  const inStock = formData.get("inStock") !== null; // checkbox 有值就代表 true
+  const inSale = formData.get("inSale") !== null;
 
   if (public_ids.length === 0) {
     throw new Error("No images uploaded");
@@ -26,18 +27,22 @@ export async function uploadImage(formData: FormData) {
     signature: signatures[i],
   }));
 
-  // 新增一個 product，包含多張 image
-  const result = await db.collection("products").add({
-    name: name,
-    description: description,
-    price: price,
-    images, // ✅ 存成陣列
-    createdAt: new Date().toISOString(),
-  });
+  const ref = db.collection("products").doc(); // 先 reserve ID
+  const productWithId: Product = {
+    id: ref.id,
+    name,
+    description,
+    price,
+    category,
+    tags,
+    inStock,
+    inSale,
+    images,
+  };
 
-  console.log("Product created:", result.id);
+  await ref.set(productWithId); // 用 set() 放全個 object，包括 id
 
-  redirect("/products"); // 回首頁
+  redirect("/products");
 }
 
 // Get products from db
@@ -100,8 +105,6 @@ export async function getProductById(id: string): Promise<Product | null> {
   } as Product;
 }
 
-
-
 export const updateProduct = async (id: string, data: any) => {
   const ref = db.collection("products").doc(id); // ✅ Admin SDK 寫法
   await ref.update(data);
@@ -113,13 +116,12 @@ export const deleteProduct = async (id: string) => {
 };
 
 export const deleteImageFromCloudinary = async (publicId: string) => {
-
   cloudinary.v2.config({
     cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
     api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
-  
+
   try {
     const result = await cloudinary.v2.uploader.destroy(publicId);
     console.log("✅ Cloudinary delete result:", result);

@@ -4,14 +4,6 @@ import { Card, CardContent, CardTitle } from "./ui/card";
 import { useEffect, useState } from "react";
 import { CldImage } from "next-cloudinary";
 
-interface Product {
-  id: string;
-  name: string;
-  description?: string;
-  images?: { public_id: string }[];
-  price: number;
-}
-
 interface Props {
   products: Product[];
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import { uploadImage } from '@/lib/actions/product.action';
-import { CldUploadWidget, CldImage } from 'next-cloudinary';
-import { useState } from 'react';
-import { deleteImageFromCloudinary } from '@/lib/actions/product.action';
+import { uploadImage } from "@/lib/actions/product.action";
+import { CldUploadWidget, CldImage } from "next-cloudinary";
+import { useState } from "react";
+import { deleteImageFromCloudinary } from "@/lib/actions/product.action";
 
 interface UploadedImage {
   public_id: string;
@@ -11,18 +11,20 @@ interface UploadedImage {
   signature: string;
 }
 
+const categories = ["Food", "Drink", "Snacks", "Health"]; // example
+const defaultTags = ["vegan", "spicy", "cold", "limited"];
+
 export default function UploadWidget() {
   const [images, setImages] = useState<UploadedImage[]>([]);
 
   const handleRemoveImage = async (publicId: string) => {
     setImages((prev) => prev.filter((img) => img.public_id !== publicId));
-    // Remove cloudinary image if needed
     await deleteImageFromCloudinary(publicId);
   };
 
   return (
-    <form action={uploadImage} method="POST" className="flex flex-col gap-4">
-      {/* Basic fields */}
+    <form action={uploadImage} className="flex flex-col gap-4">
+      {/* Name */}
       <label>
         Name
         <input
@@ -32,6 +34,8 @@ export default function UploadWidget() {
           className="block w-full border p-2 rounded"
         />
       </label>
+
+      {/* Description */}
       <label>
         Description
         <textarea
@@ -40,6 +44,8 @@ export default function UploadWidget() {
           className="block w-full border p-2 rounded"
         />
       </label>
+
+      {/* Price */}
       <label>
         Price
         <input
@@ -50,12 +56,53 @@ export default function UploadWidget() {
         />
       </label>
 
-      {/* Upload button */}
+      {/* Category */}
+      <label>
+        Category
+        <select name="category" required className="block w-full border p-2 rounded">
+          <option value="">-- Select Category --</option>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      {/* Tags */}
+      <label>
+        Tags (hold Ctrl to select multiple)
+        <select
+          name="tags"
+          multiple
+          className="block w-full border p-2 rounded h-24"
+        >
+          {defaultTags.map((tag) => (
+            <option key={tag} value={tag}>
+              {tag}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      {/* inStock + inSale */}
+      <div className="flex items-center gap-4">
+        <label className="flex items-center gap-2">
+          <input type="checkbox" name="inStock" />
+          In Stock
+        </label>
+        <label className="flex items-center gap-2">
+          <input type="checkbox" name="inSale" />
+          On Sale
+        </label>
+      </div>
+
+      {/* Upload Images */}
       <CldUploadWidget
         uploadPreset="preset1"
         options={{
           folder: "sample",
-          multiple: true
+          multiple: true,
         }}
         onSuccess={(result, _widget) => {
           const info = result.info as {
@@ -91,20 +138,18 @@ export default function UploadWidget() {
         )}
       </CldUploadWidget>
 
-      {/* Image previews with delete buttons */}
+      {/* Preview Images */}
       <div className="flex gap-4 flex-wrap justify-center">
         {images.map((img) => (
-          <div key={img.public_id} className="relative w-32 h-32 bg-red-900">
+          <div key={img.public_id} className="relative w-32 h-32">
             <CldImage
               src={img.public_id}
               width={300}
               height={300}
               alt="preview"
               priority
-              className="h-32 w-auto rounded object-cover " // ✅ 加 w-auto
+              className="h-32 w-auto rounded object-cover"
             />
-
-
             <button
               type="button"
               onClick={() => handleRemoveImage(img.public_id)}
@@ -112,8 +157,6 @@ export default function UploadWidget() {
             >
               ✕
             </button>
-
-            {/* Hidden fields to submit */}
             <input type="hidden" name="public_id[]" value={img.public_id} />
             <input type="hidden" name="version[]" value={img.version.toString()} />
             <input type="hidden" name="signature[]" value={img.signature} />
@@ -121,7 +164,7 @@ export default function UploadWidget() {
         ))}
       </div>
 
-      {/* Submit button */}
+      {/* Submit Button */}
       <button
         type="submit"
         className="bg-green-600 text-white px-4 py-2 rounded"

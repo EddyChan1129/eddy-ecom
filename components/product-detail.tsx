@@ -5,21 +5,12 @@ import { Button } from "./ui/button";
 import { useCartStore } from "@/store/cart-store";
 import { CldImage } from "next-cloudinary";
 
-interface Product {
-  id: string;
-  name: string;
-  description?: string;
-  images?: { public_id: string }[];
-  price: number;
-}
-
 interface Props {
   product: Product;
 }
 
 export const ProductDetail = ({ product }: Props) => {
   const { items, addItem, removeItem } = useCartStore();
-  const price = product.price;
   const cartItem = items.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
 
@@ -30,7 +21,6 @@ export const ProductDetail = ({ product }: Props) => {
       const length = product.images?.length || 1;
       setCurrent((prev) => (prev + 1) % length);
     }, 3000);
-
     return () => clearInterval(interval);
   }, [product.images?.length]);
 
@@ -59,16 +49,36 @@ export const ProductDetail = ({ product }: Props) => {
           />
         </div>
       )}
+
       <div className="md:w-1/2">
         <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-        {product.description && (
-          <p className="text-gray-700 mb-4">{product.description}</p>
-        )}
-        {price && (
-          <p className="text-lg font-semibold text-gray-900">
-            ${price.toFixed(2)}
+
+        <p className="text-sm text-gray-500 mb-2">Category: {product.category}</p>
+
+        {product.tags && (
+          <p className="text-sm text-gray-500 mb-2">
+            Tags: {product.tags.join(", ")}
           </p>
         )}
+
+        <p className="text-sm mb-2">
+          {product.inStock ? (
+            <span className="text-green-600 font-semibold">In Stock</span>
+          ) : (
+            <span className="text-red-500 font-semibold">Out of Stock</span>
+          )}
+        </p>
+
+        {product.inSale && (
+          <p className="text-sm text-yellow-600 font-semibold mb-2">🔥 On Sale!</p>
+        )}
+
+        <p className="text-gray-700 mb-4">{product.description}</p>
+
+        <p className="text-lg font-semibold text-gray-900 mb-4">
+          ${product.price.toFixed(2)}
+        </p>
+
         <div className="flex items-center space-x-4">
           <Button variant="outline" onClick={() => removeItem(product.id)}>
             –
