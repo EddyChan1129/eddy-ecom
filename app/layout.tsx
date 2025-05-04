@@ -4,8 +4,8 @@ import { Navbar } from "@/components/navbar";
 
 
 export const metadata: Metadata = {
-  title: "MyStore",
-  description: "Buy cool products",
+  title: "Eddy World",
+  description: "Welcome to Eddy World, your one-stop shop for all things Eddy!",
 };
 
 export default function RootLayout({
