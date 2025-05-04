@@ -4,7 +4,7 @@ import { db } from "@/firebase/admin";
 import { redirect } from "next/navigation";
 import cloudinary from "cloudinary";
 
-export async function uploadImage(formData: FormData) {
+export async function uploadProduct(formData: FormData) {
   const public_ids = formData.getAll("public_id[]") as string[];
   const versions = formData.getAll("version[]") as string[];
   const signatures = formData.getAll("signature[]") as string[];
@@ -12,8 +12,9 @@ export async function uploadImage(formData: FormData) {
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
   const price = Number(formData.get("price"));
-  const category = formData.get("category") as string;
-  const tags = formData.getAll("tags") as string[]; // ✅ multiple select
+  const category = formData.get("category")  as string;
+
+  const tags = formData.getAll("tags")  as string[]
   const inStock = formData.get("inStock") !== null; // checkbox 有值就代表 true
   const inSale = formData.get("inSale") !== null;
 
@@ -33,8 +34,8 @@ export async function uploadImage(formData: FormData) {
     name,
     description,
     price,
-    category,
-    tags,
+    category: category.length > 0 ? category : null, // 如果沒有 category，就設為 null
+    tags: tags.length > 0 ? tags : null, // 如果沒有 tags，就設為 null
     inStock,
     inSale,
     images,

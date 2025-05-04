@@ -37,7 +37,7 @@ export const ProductDetail = ({ product }: Props) => {
   return (
     <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-center">
       {product.images && product.images[current] && (
-        <div className="relative h-96 w-full md:w-1/2 rounded-lg overflow-hidden items-center flex"> 
+        <div className="relative h-96 w-full md:w-1/2 rounded-lg overflow-hidden items-center flex">
           <CldImage
             src={product.images[current].public_id}
             alt={product.name}
@@ -53,7 +53,7 @@ export const ProductDetail = ({ product }: Props) => {
       <div className="md:w-1/2">
         <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
 
-        <p className="text-sm text-gray-500 mb-2">Category: {product.category}</p>
+        {product.category && <p className="text-sm text-gray-500 mb-2">Category: {product.category}</p>}
 
         {product.tags && (
           <p className="text-sm text-gray-500 mb-2">
