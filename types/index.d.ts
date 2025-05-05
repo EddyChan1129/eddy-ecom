@@ -43,8 +43,8 @@ interface Product {
     format?: string; // Optional: 如有需要知道是 jpg / webp 等
   }[];
   tags?: string[] | null;
-  inStock: boolean;
-  inSale: boolean;
+  inStock: boolean | null; // Recommend others, checkbox sorting
+  inSale: boolean | null; // Recommend others, checkbox sorting
   createdAt?: string; // Optional: 如果你想知道產品的創建時間
   updatedAt?: string; // Optional: 如果你想知道產品的更新時間
 }
