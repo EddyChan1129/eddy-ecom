@@ -30,7 +30,7 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
 
   return (
     <Card className="group hover:shadow-2xl transition duration-300 py-0 h-full flex flex-col border-gray-300 gap-0">
-      <div className="relative h-60 w-full">
+      <div className="relative  h-40 md:h-60 w-full">
         <div className="absolute inset-0 bg-gray-200 rounded-t-lg overflow-hidden flex items-center justify-center">
           {product.images?.[0]?.public_id &&
             <CldImage
@@ -42,6 +42,7 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
               priority
             />}
         </div>
+        <span className="absolute top-1/2 left-1/2 translate-[-50%] bg-white/50 px-2 py-3 rounded-full font-bold w-[8rem] text-center text-gray-600 uppercase">{product.name}</span>
 
         {isAdmin && (
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-10 ">
@@ -73,21 +74,15 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
           </div>
         )}
       </div>
-
-      <CardHeader className="p-4">
-        <CardTitle className="text-xl font-bold text-gray-800">
-          {product.name}
-        </CardTitle>
-      </CardHeader>
       <CardContent className="p-4 flex-grow flex flex-col justify-between">
         {product.description && (
-          <p className="text-gray-600 text-sm mb-2">{product.description}</p>
+          <p className="text-gray-600 text-sm mb-1">{product.description}</p>
         )}
-        <p className="text-lg font-semibold text-gray-900">
+        <p className="text-lg mb-2 font-semibold text-gray-900">
           ${product.price.toFixed(2)}
         </p>
         <Link href={`/products/${product.id}`}>
-          <Button className="mt-4 bg-black text-white">View Details</Button>
+          <Button className=" bg-black text-white">View Details</Button>
         </Link>
       </CardContent>
     </Card>

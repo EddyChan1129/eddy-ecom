@@ -123,7 +123,7 @@ export default function UploadWidget() {
           onQueuesEnd={(_result, { widget }) => {
             widget.close();
           }}
-          signatureEndpoint="/update-photo"
+          signatureEndpoint="/upload-photo"
         >
           {({ open }) => (
             <Button

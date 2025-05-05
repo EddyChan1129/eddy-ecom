@@ -45,11 +45,13 @@ export const Carousel = ({ products }: Props) => {
         </div>
       )}
 
-      <CardContent className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
-        <CardTitle className="text-3xl font-bold text-white mb-2">
-          {currentProduct.name}
-        </CardTitle>
-        <p className="text-xl text-white">${currentProduct.price.toFixed(2)}</p>
+      <CardContent className=" absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
+        <div className="text-center bg-gray-900/60 p-3 rounded-2xl uppercase tracking-widest">
+          <CardTitle className="text-3xl font-bold text-white mb-2">
+            {currentProduct.name}
+          </CardTitle>
+          <p className="text-xl text-white">${currentProduct.price.toFixed(2)}</p>
+        </div>
       </CardContent>
     </Card>
   );
