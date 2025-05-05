@@ -8,6 +8,7 @@ export const revalidate = 0;
 
 export default async function Home() {
   const products = await getProducts();
+  const hasImageProducts = products.filter(product => product.images && product.images.length > 0);
   // const featuredImage = products[0]?.images?.[0];
   const featuredImage = products.find(p => p.images && p.images.length > 0)?.images?.[0];
 
@@ -32,7 +33,7 @@ export default async function Home() {
           </div>
 
           {featuredImage ? (
-            <div className="relative w-[320px] h-[380px] md:w-[350px] md:h-[450px] lg:w-[450px] lg:h-[500px] shadow-xl rounded-xl overflow-hidden">
+            <div className="relative sm:hidden md:flex w-[320px] h-[380px] md:w-[250px] md:h-[450px] lg:w-[380px] lg:h-[500px] shadow-xl rounded-xl overflow-hidden">
               <CldImageWrapper
                 src={featuredImage.public_id}
                 alt="Featured Product"
@@ -54,7 +55,7 @@ export default async function Home() {
 
 
       <section className="py-8">
-        <Carousel products={products.slice(0, 5)} />
+        <Carousel products={hasImageProducts.slice(0, 5)} />
       </section>
     </div>
   );

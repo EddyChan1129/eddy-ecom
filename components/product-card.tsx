@@ -42,7 +42,7 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
               priority
             />}
         </div>
-        <span className="absolute top-1/2 left-1/2 translate-[-50%] bg-white/50 px-2 py-3 rounded-full font-bold w-[8rem] text-center text-gray-600 uppercase">{product.name}</span>
+        <span className="absolute top-1/2 left-1/2 translate-[-50%] bg-white/50 px-2 py-3 rounded-full font-bold w-[8rem] text-center text-gray-600 uppercase tracking-wider">{product.name}</span>
 
         {isAdmin && (
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-10 ">

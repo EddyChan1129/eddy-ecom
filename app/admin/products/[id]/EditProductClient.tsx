@@ -96,7 +96,7 @@ export default function EditProductClient({ productId }: Props) {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="p-8 max-w-xl mx-auto space-y-4">
+    <div className="p-8 max-w-xl mx-auto space-y-4 flex flex-col">
       <Input
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -210,11 +210,12 @@ export default function EditProductClient({ productId }: Props) {
         onQueuesEnd={(_result, { widget }) => {
           widget.close();
         }}
-        signatureEndpoint="/update-photo"
+        signatureEndpoint="/admin/upload-photo"
       >
         {({ open }) => (
           <Button
             type="button"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
             onClick={(e) => {
               e.preventDefault();
               open();
@@ -225,7 +226,7 @@ export default function EditProductClient({ productId }: Props) {
         )}
       </CldUploadWidget>
 
-      <Button onClick={handleSave} className="bg-blue-600 text-white px-4 py-2">
+      <Button onClick={handleSave} className="bg-green-600 text-white px-4 py-2">
         Save
       </Button>
     </div>
