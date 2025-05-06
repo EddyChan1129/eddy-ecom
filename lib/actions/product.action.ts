@@ -46,38 +46,63 @@ export async function uploadProduct(formData: FormData) {
 }
 
 // Get products from db
-export async function getProducts(): Promise<Product[]> {
-  const snapshot = await db.collection("products").get();
-  if (snapshot.empty) return [];
+export async function getProducts({
+  category = "",
+  searchTerm = "",
+  sortOption = "",
+  limit = 4,
+  startAfterDoc = null,
+}: {
+  category?: string;
+  searchTerm?: string;
+  sortOption?: string;
+  limit?: number;
+  startAfterDoc?: FirebaseFirestore.DocumentSnapshot | null;
+}) {
+  let queryRef = db.collection("products").limit(limit);
 
-  const productList = snapshot.docs.map((doc) => {
+  if (category) {
+    queryRef = queryRef.where("category", "==", category);
+  }
+
+  if (sortOption === "price-low") {
+    queryRef = queryRef.orderBy("price", "asc");
+  } else if (sortOption === "price-high") {
+    queryRef = queryRef.orderBy("price", "desc");
+  } else {
+    queryRef = queryRef.orderBy("createdAt", "desc");
+  }
+
+  if (startAfterDoc) {
+    queryRef = queryRef.startAfter(startAfterDoc);
+  }
+
+  const snapshot = await queryRef.get();
+  const products: Product[] = snapshot.docs.map((doc) => {
     const data = doc.data();
-
-    // ✅ Filter 掉 signature 唔啱嘅圖片
-    const images = (data.images || []).filter((img: any) => {
-      const expectedSig = cloudinary.utils.api_sign_request(
-        {
-          public_id: img.public_id,
-          version: img.version,
-        },
-        process.env.CLOUDINARY_API_SECRET!
-      );
-      return expectedSig === img.signature;
-    });
-
-    // 只 pass public_id 等 metadata
+  
     return {
       id: doc.id,
-      ...data,
-      images: images.map((img: any) => ({
+      name: data.name,
+      description: data.description,
+      category: data.category,
+      price: data.price,
+      inStock: data.inStock,
+      inSale: data.inSale,
+      images: (data.images || []).map((img: any) => ({
         public_id: img.public_id,
         version: img.version,
         format: img.format,
       })),
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
     };
   });
+  
 
-  return productList as Product[];
+  const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+
+  return { products, lastDoc };
 }
 
 // Get Product by id

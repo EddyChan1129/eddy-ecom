@@ -7,7 +7,8 @@ import CldImageWrapper from "@/components/CldImageWrapper";
 export const revalidate = 0;
 
 export default async function Home() {
-  const products = await getProducts();
+
+  const { products } = await getProducts({});
   const hasImageProducts = products.filter(product => product.images && product.images.length > 0);
   // const featuredImage = products[0]?.images?.[0];
   const featuredImage = products.find(p => p.images && p.images.length > 0)?.images?.[0];
