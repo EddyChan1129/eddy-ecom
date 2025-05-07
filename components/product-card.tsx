@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CldImage } from "next-cloudinary";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { deleteProduct } from "@/lib/actions/product.action";
@@ -12,6 +12,9 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
+
+  // If the products is created within 0.1 days (2.4 hours) from now, it is considered new
+  const isNew = new Date(product.createdAt?? 0).getTime() > new Date().getTime() - 1000 * 60 * 60 * 24 * 0.1;
 
   const router = useRouter(); // ✅ 需要 router
 
@@ -44,6 +47,11 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
         </div>
         <span className="absolute top-1/2 left-1/2 translate-[-50%] bg-white/50 px-2 py-3 rounded-full font-bold w-[8rem] text-center text-gray-600 uppercase tracking-wider">{product.name}</span>
 
+        {isNew && (
+          <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+            New
+          </span>
+        )}
         {isAdmin && (
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-10 ">
             <Link href={`/admin/products/${product.id}`}>
