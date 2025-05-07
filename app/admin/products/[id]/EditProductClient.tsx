@@ -52,7 +52,7 @@ export default function EditProductClient({ productId }: Props) {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const data = await getProductById(productId);
+      const { product: data } = await getProductById(productId);
       if (data) {
         setForm({
           name: data.name,
