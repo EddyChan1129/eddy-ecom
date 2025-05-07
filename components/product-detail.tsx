@@ -5,12 +5,17 @@ import { Button } from "./ui/button";
 import { useCartStore } from "@/store/cart-store";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
+import { ProductCard } from "./product-card";
+
+type ProductPreview = Omit<Product, "description" | "tags" | "updatedAt">;
 
 interface Props {
   product: Product;
+  suggestions: ProductPreview[];
 }
 
-export const ProductDetail = ({ product }: Props) => {
+
+export const ProductDetail = ({ product, suggestions }: Props) => {
   const { items, addItem, removeItem } = useCartStore();
   const cartItem = items.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
@@ -99,6 +104,35 @@ export const ProductDetail = ({ product }: Props) => {
             Checkout
           </Button>
         </Link>
+
+        {suggestions.length > 0 && (
+          <div className="mt-8">
+            <h2 className="text-lg font-bold mb-2">You May Also Like</h2>
+            {suggestions.map((item) => (
+              <div className="flex">
+
+                <Link href={`/products/${item.id}`} key={item.id} className="border rounded-lg p-4">
+                  <p className="text-sm">{item.name}</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-4">
+                    ${item.price}
+                  </p>
+                  {item.images && item.images[0] && (
+                    <CldImage
+                      src={item.images[0].public_id}
+                      alt={item.name}
+                      width={100}
+                      height={100}
+                      sizes="300px"
+                      className="transition duration-300 hover:opacity-90 object-cover"
+                    />
+                  )}
+                </Link>
+              </div>
+
+            ))}
+          </div>
+        )}
+
 
       </div>
     </div>

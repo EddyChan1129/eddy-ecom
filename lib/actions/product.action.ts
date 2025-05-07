@@ -106,9 +106,9 @@ export async function getProducts({
 }
 
 // Get Product by id
-export async function getProductById(id: string): Promise<Product | null> {
+export async function getProductById(id: string): Promise<{ product: Product | null; suggestions: Product[] }> {
   const productDoc = await db.collection("products").doc(id).get();
-  if (!productDoc.exists) return null;
+  if (!productDoc.exists) return { product: null, suggestions: [] };
 
   const data = productDoc.data();
 
@@ -123,12 +123,41 @@ export async function getProductById(id: string): Promise<Product | null> {
     return expectedSig === img.signature;
   });
 
-  return {
+  const product: Product = {
     id: productDoc.id,
     ...data,
-    images, // ✅ 保留 public_id, version 等原始資料
+    images,
   } as Product;
+
+  // Get 3 similar products from same category (excluding current product)
+  const snapshot = await db
+    .collection("products")
+    .where("category", "==", data?.category)
+    .where("__name__", "!=", id)
+    .limit(3)
+    .get();
+
+  const suggestions: Product[] = snapshot.docs.map((doc) => {
+    const d = doc.data();
+    return {
+      id: doc.id,
+      ...d,
+      images: (d?.images || []).filter((img: any) => {
+        const sig = cloudinary.utils.api_sign_request(
+          {
+            public_id: img.public_id,
+            version: img.version,
+          },
+          process.env.CLOUDINARY_API_SECRET!
+        );
+        return sig === img.signature;
+      }),
+    } as Product;
+  });
+
+  return { product, suggestions };
 }
+
 
 export const updateProduct = async (id: string, data: any) => {
   const ref = db.collection("products").doc(id); // ✅ Admin SDK 寫法

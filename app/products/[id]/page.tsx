@@ -5,11 +5,11 @@ export default async function ProductPage(props: {
 }) {
   const { id } = await props.params;
 
-  const product = await getProductById(id);
+  const { product, suggestions } = await getProductById(id);
 
   if (!product) {
     return <div className="text-center text-red-500 mt-10">Product not found.</div>;
   }
 
-  return <ProductDetail product={product} />;
+  return <ProductDetail product={product} suggestions={suggestions}/>;
 }
