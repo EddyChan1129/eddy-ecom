@@ -39,7 +39,7 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-center">
+    <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-center ">
       {/* <div className="relative h-96 w-full md:w-1/2 rounded-lg overflow-hidden flex items-center justify-center bg-gray-100">
         {product.images && product.images[current] ? (
           <CldImage
@@ -59,14 +59,14 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
         <Link href="/products" className="absolute top-0 left-0 "><Button className="cursor-pointer" >Back</Button></Link>
       </div> */}
 
-      <Carousel className="relative w-full md:w-1/2 rounded-lg ">
+      <Carousel className="relative w-full md:w-1/2 rounded-lg">
         {product.images && product.images?.length > 0 ? (
           <div>
             <CarouselContent>
               {Array.from({ length: product.images?.length }).map((_, index) => (
                 <CarouselItem key={index}>
-                  <Card className="p-0">
-                    <CardContent className="flex aspect-square items-center justify-center p-0 bg-gray-100">
+                  <Card className="p-0  border-none">
+                    <CardContent className="flex aspect-square border-none items-center justify-center p-0 ">
                       <CldImage
                         src={product.images![index].public_id}
                         alt={product.name}
@@ -89,7 +89,11 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
             No image provide
           </div>
         )}
-        <Link href="/products" className="absolute top-0 left-0 "><Button className="cursor-pointer rounded-e-none rounded-b-none rounded-s-md rounded-br-md" >Back</Button></Link>
+        <Link href="/products" className="absolute top-0 left-0 ">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 bg-black/70 text-white rounded-full p-2 hover:text-gray-700 hover:bg-gray-200 transition duration-300">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+          </svg>
+        </Link>
       </Carousel>
 
       <div className="md:w-1/2 md:pl-20">
@@ -137,29 +141,29 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
         </Link>
 
         {suggestions.length > 0 && (
-          <div className="mt-8">
+          <div className="mt-8 ">
             <h2 className="text-lg font-bold mb-2">You May Also Like</h2>
             {suggestions.map((item) => (
-              <div key={item.id} className="flex">
-                <Link href={`/products/${item.id}`} className="border rounded-lg p-4">
-                  <p className="text-sm">{item.name}</p>
-                  <p className="text-sm font-semibold text-gray-900 mb-4">
-                    ${item.price}
-                  </p>
+              <div key={item.id} className="flex gap-3">
+                <Link href={`/products/${item.id}`} className="border rounded-lg h-16 overflow-hidden">
                   {item.images && item.images[0] && (
-                    <CldImage
-                      src={item.images[0].public_id}
-                      alt={item.name}
-                      width={100}
-                      height={100}
-                      sizes="300px"
-                      className="transition duration-300 hover:opacity-90 object-cover"
-                    />
+                    <div className="relative">
+                      <CldImage
+                        src={item.images[0].public_id}
+                        alt={item.name}
+                        width={100}
+                        height={100}
+                        sizes="300px"
+                        className="transition duration-300 hover:opacity-90 object-cover"
+                      />
+                      <p className="absolute top-[2rem] left-[50%] translate-[-50%] text-xs bg-gray-500/50 p-1 text-white w-full text-center uppercase tracking-tight font-bold">{item.name}</p>
+                    </div>
                   )}
                 </Link>
               </div>
 
             ))}
+
           </div>
         )}
 

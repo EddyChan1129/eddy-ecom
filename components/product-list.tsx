@@ -25,7 +25,7 @@ interface ProductListProps {
   isAdmin: boolean;
 }
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 8;
 
 export const ProductList = ({ products, isAdmin }: ProductListProps) => {
   const [searchTerm, setSearchTerm] = useState("");

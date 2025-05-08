@@ -14,7 +14,7 @@ interface ProductCardProps {
 export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
 
   // If the products is created within 0.1 days (2.4 hours) from now, it is considered new
-  const isNew = new Date(product.createdAt?? 0).getTime() > new Date().getTime() - 1000 * 60 * 60 * 24 * 1;
+  const isNew = new Date(product.createdAt ?? 0).getTime() > new Date().getTime() - 1000 * 60 * 60 * 24 * 1;
 
   const router = useRouter(); // ✅ 需要 router
 
@@ -48,9 +48,13 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
         <span className="absolute top-1/2 left-1/2 sm:text-xs md:text-xl text-nowrap text-ellipsis overflow-hidden translate-[-50%] bg-white/50 px-2 py-3 rounded-md font-bold w-[8rem] text-center text-gray-600 uppercase tracking-wider hover:text-wrap">{product.name}</span>
 
         {isNew && (
-          <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
-            New
-          </span>
+
+
+
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="absolute top-[-10px] left-[-10px] size-8 bg-white/70 rounded-md p-1">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+          </svg>
+
         )}
         {isAdmin && (
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-10 ">
@@ -90,7 +94,12 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
           ${product.price.toFixed(2)}
         </p>
         <Link href={`/products/${product.id}`}>
-          <Button className=" bg-black text-white">View Details</Button>
+          <Button className=" bg-black text-white hover:bg-gray-800 transition duration-300 uppercase tracking-widest sm:text-xs md:text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="sm:size-4 size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+            </svg>
+            Checkout
+          </Button>
         </Link>
       </CardContent>
     </Card>
