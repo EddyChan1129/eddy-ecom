@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { categories } from "@/const";
+import { Input } from "./ui/input";
 
 interface ProductListProps {
   products: Product[];
@@ -73,74 +74,69 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
 
   return (
     <div className="">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline">Filter & Sort</Button>
-        </SheetTrigger>
-        <SheetContent side="left">
-          <SheetHeader>
-            <SheetTitle>Filter & Sort Products</SheetTitle>
-            <SheetDescription>Choose how you want to sort the products.</SheetDescription>
-          </SheetHeader>
-          <div className="grid gap-2 px-4 py-6">
-            <Button variant="outline" onClick={() => setSortOption("price-low")}>
-              Sort by Price: Low to High
-            </Button>
-            <Button variant="outline" onClick={() => setSortOption("price-high")}>
-              Sort by Price: High to Low
-            </Button>
-
-            <Select name="category"
-              value={selectedCategory}
-              onValueChange={(value) => {
-                setSelectedCategory(value)
-                setCurrentPage(1); // reset to page 1 on category change
-              }}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat} value={cat}>
-                    {cat}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setSelectedCategory("");
-                setSortOption("");
-                setSearchTerm("");
-                setCurrentPage(1);
-              }}
-            >
-              Clear Filters
-            </Button>
-
-
-          </div>
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button type="button">Close</Button>
-            </SheetClose>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
-
-      <div className="mb-6 flex justify-center relative w-full">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1); // reset to page 1 when searching
-          }}
-          placeholder="Search products..."
-          className="w-full max-w-sm rounded border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+      <div className="mb-6 flex justify-between items-center">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" className="text-gray-600">Filter & Sort</Button>
+          </SheetTrigger>
+          <SheetContent side="left">
+            <SheetHeader>
+              <SheetTitle>Filter & Sort Products</SheetTitle>
+              <SheetDescription>Choose how you want to sort the products.</SheetDescription>
+            </SheetHeader>
+            <div className="grid gap-2 px-4 py-6">
+              <Input 
+                type="text"
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1); // reset to page 1 when searching
+                }}
+                placeholder="Search products..."
+                className="w-full max-w-sm rounded border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <Button variant="outline" onClick={() => setSortOption("price-low")}>
+                Sort by Price: Low to High
+              </Button>
+              <Button variant="outline" onClick={() => setSortOption("price-high")}>
+                Sort by Price: High to Low
+              </Button>
+              <Select name="category"
+                value={selectedCategory}
+                onValueChange={(value) => {
+                  setSelectedCategory(value)
+                  setCurrentPage(1); // reset to page 1 on category change
+                }}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat} value={cat}>
+                      {cat}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setSelectedCategory("");
+                  setSortOption("");
+                  setSearchTerm("");
+                  setCurrentPage(1);
+                }}
+              >
+                Clear Filters
+              </Button>
+            </div>
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button type="button">Close</Button>
+              </SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
       </div>
 
       <ul className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">

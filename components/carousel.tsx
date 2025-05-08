@@ -32,7 +32,7 @@ export const Carousel = ({ products }: Props) => {
   const currentProduct = products[current];
 
   return (
-    <Card className="relative overflow-hidden rounded-lg shadow-md border-gray-300">
+    <Card className="relative overflow-hidden rounded-lg shadow-md border-gray-300 p-0">
       {currentProduct.images?.[0]?.public_id && (
         <div className="relative h-80 w-full">
           <CldImage

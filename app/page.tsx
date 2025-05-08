@@ -55,7 +55,7 @@ export default async function Home() {
       </section>
 
 
-      <section className="py-8">
+      <section className="my-8">
         <Carousel products={hasImageProducts.slice(0, 5)} />
       </section>
     </div>

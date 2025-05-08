@@ -59,14 +59,14 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
         <Link href="/products" className="absolute top-0 left-0 "><Button className="cursor-pointer" >Back</Button></Link>
       </div> */}
 
-      <Carousel className="relative w-full md:w-1/2 rounded-lg bg-gray-100">
+      <Carousel className="relative w-full md:w-1/2 rounded-lg ">
         {product.images && product.images?.length > 0 ? (
           <div>
             <CarouselContent>
               {Array.from({ length: product.images?.length }).map((_, index) => (
                 <CarouselItem key={index}>
-                  <Card>
-                    <CardContent className="flex aspect-square items-center justify-center p-6">
+                  <Card className="p-0">
+                    <CardContent className="flex aspect-square items-center justify-center p-0 bg-gray-100">
                       <CldImage
                         src={product.images![index].public_id}
                         alt={product.name}
@@ -89,7 +89,7 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
             No image provide
           </div>
         )}
-        <Link href="/products" className="absolute top-1 left-1 "><Button className="cursor-pointer rounded-e-none rounded-b-none rounded-s-md rounded-br-md" >Back</Button></Link>
+        <Link href="/products" className="absolute top-0 left-0 "><Button className="cursor-pointer rounded-e-none rounded-b-none rounded-s-md rounded-br-md" >Back</Button></Link>
       </Carousel>
 
       <div className="md:w-1/2 md:pl-20">
