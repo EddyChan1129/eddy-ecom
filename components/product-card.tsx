@@ -88,7 +88,7 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
       </div>
       <CardContent className="p-4 flex-grow flex flex-col justify-between">
         {product.description && (
-          <p className="text-gray-600 text-sm mb-1">{product.description}</p>
+          <p className="text-gray-600 text-sm mb-1 text-nowrap text-ellipsis hover:text-wrap overflow-hidden ">{product.description}</p>
         )}
         <p className="text-lg mb-2 font-semibold text-gray-900">
           ${product.price.toFixed(2)}
