@@ -22,10 +22,16 @@ export default function SuccessPage() {
             strokeWidth="2"
             viewBox="0 0 24 24"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5 13l4 4L19 7"
+            />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">Payment Successful</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          Payment Successful
+        </h1>
         <p className="text-gray-600 mb-6">
           Thank you for your purchase! Your order is being processed.
         </p>

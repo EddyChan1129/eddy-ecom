@@ -7,11 +7,13 @@ import CldImageWrapper from "@/components/CldImageWrapper";
 export const revalidate = 0;
 
 export default async function Home() {
-
   const { products } = await getProducts({});
-  const hasImageProducts = products.filter(product => product.images && product.images.length > 0);
+  const hasImageProducts = products.filter(
+    (product) => product.images && product.images.length > 0,
+  );
   // const featuredImage = products[0]?.images?.[0];
-  const featuredImage = products.find(p => p.images && p.images.length > 0)?.images?.[0];
+  const featuredImage = products.find((p) => p.images && p.images.length > 0)
+    ?.images?.[0];
 
   return (
     <div>
@@ -45,7 +47,8 @@ export default async function Home() {
               />
             </div>
           ) : (
-            <div className="w-[450px] h-[450px] flex items-center justify-center bg-gray-300 text-gray-600 rounded-lg"
+            <div
+              className="w-[450px] h-[450px] flex items-center justify-center bg-gray-300 text-gray-600 rounded-lg"
               aria-label="No image available"
             >
               No image
@@ -53,7 +56,6 @@ export default async function Home() {
           )}
         </div>
       </section>
-
 
       <section className="my-8">
         <Carousel products={hasImageProducts.slice(0, 5)} />

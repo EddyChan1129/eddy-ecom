@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   //   ],
   // },
   images: {
-    domains: ['res.cloudinary.com'], // ✅ 加 Cloudinary 網域
+    domains: ["res.cloudinary.com"], // ✅ 加 Cloudinary 網域
   },
   eslint: {
     ignoreDuringBuilds: true,

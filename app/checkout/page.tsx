@@ -10,7 +10,7 @@ export default function CheckoutPage() {
   const { items, removeItem, addItem } = useCartStore();
   const total = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
-    0
+    0,
   );
 
   if (items.length === 0) {
@@ -35,7 +35,7 @@ export default function CheckoutPage() {
                 <div className="flex justify-between">
                   <span className="font-medium">{item.name}</span>
                   <span className="font-semibold">
-                    ${((item.price * item.quantity)).toFixed(2)}
+                    ${(item.price * item.quantity).toFixed(2)}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -59,7 +59,7 @@ export default function CheckoutPage() {
             ))}
           </ul>
           <div className="mt-4 border-t pt-2 text-lg font-semibold">
-            Total: ${(total).toFixed(2)}
+            Total: ${total.toFixed(2)}
           </div>
         </CardContent>
       </Card>
@@ -69,7 +69,11 @@ export default function CheckoutPage() {
           Proceed to Payment
         </Button>
         <Link href={"/products"} className="mt-4 block">
-          <Button type="submit" variant="secondary" className="w-full cursor-pointer">
+          <Button
+            type="submit"
+            variant="secondary"
+            className="w-full cursor-pointer"
+          >
             Continue Shopping
           </Button>
         </Link>

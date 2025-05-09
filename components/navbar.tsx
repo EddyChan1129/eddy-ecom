@@ -9,7 +9,11 @@ import {
 import { useCartStore } from "@/store/cart-store";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { isAdmin as authAdmin, isAuthenticated, signOut } from "@/lib/actions/auth.action";
+import {
+  isAdmin as authAdmin,
+  isAuthenticated,
+  signOut,
+} from "@/lib/actions/auth.action";
 import { useAuthStore, useAdminStore } from "@/store/auth-store"; // ✅ 引入
 
 export const Navbar = () => {
@@ -38,25 +42,44 @@ export const Navbar = () => {
     await signOut();
     setIsLogin(false); // ✅ 即時登出
     setIsAdmin(false); // ✅ 清除 admin 狀態
-
   };
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
-        <Link href="/" className="text-xl font-bold tracking-tight text-gray-800 hover:text-blue-600 transition">
+        <Link
+          href="/"
+          className="text-xl font-bold tracking-tight text-gray-800 hover:text-blue-600 transition"
+        >
           Ecommerce
         </Link>
         <div className="hidden md:flex items-center space-x-8 text-gray-700 text-sm font-medium">
-          <Link href="/" className="hover:text-blue-600 hover:underline transition">Home</Link>
-          <Link href="/products" className="hover:text-blue-600 hover:underline transition">Products</Link>
-          <Link href="/checkout" className="hover:text-blue-600 hover:underline transition">Checkout</Link>
+          <Link
+            href="/"
+            className="hover:text-blue-600 hover:underline transition"
+          >
+            Home
+          </Link>
+          <Link
+            href="/products"
+            className="hover:text-blue-600 hover:underline transition"
+          >
+            Products
+          </Link>
+          <Link
+            href="/checkout"
+            className="hover:text-blue-600 hover:underline transition"
+          >
+            Checkout
+          </Link>
           {isAdmin && (
-            <Link href="/admin/cms" className="text-blue-700 font-semibold hover:underline">
+            <Link
+              href="/admin/cms"
+              className="text-blue-700 font-semibold hover:underline"
+            >
               CMS
             </Link>
           )}
-
         </div>
 
         <div className="flex items-center space-x-4">
@@ -67,7 +90,10 @@ export const Navbar = () => {
               </Button>
             </Link>
           ) : (
-            <Button onClick={logout} className="hidden md:block rounded-full bg-gray-800 hover:bg-gray-700 text-white px-5 py-2 transition">
+            <Button
+              onClick={logout}
+              className="hidden md:block rounded-full bg-gray-800 hover:bg-gray-700 text-white px-5 py-2 transition"
+            >
               Logout
             </Button>
           )}
@@ -98,39 +124,70 @@ export const Navbar = () => {
       {mobileOpen && (
         <div className="md:hidden bg-white border-t border-gray-200 shadow-inner">
           <ul className="flex flex-col p-6 space-y-4 text-gray-800 text-base">
-            <li><Link href="/" className="hover:text-blue-600" onClick={() => setMobileOpen((prev) => !prev)}
-            >Home</Link></li>
-            <li><Link href="/products" className="hover:text-blue-600" onClick={() => setMobileOpen((prev) => !prev)}
-            >Products</Link></li>
-            <li><Link href="/checkout" className="hover:text-blue-600" onClick={() => setMobileOpen((prev) => !prev)}
-            >Checkout</Link></li>
+            <li>
+              <Link
+                href="/"
+                className="hover:text-blue-600"
+                onClick={() => setMobileOpen((prev) => !prev)}
+              >
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/products"
+                className="hover:text-blue-600"
+                onClick={() => setMobileOpen((prev) => !prev)}
+              >
+                Products
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/checkout"
+                className="hover:text-blue-600"
+                onClick={() => setMobileOpen((prev) => !prev)}
+              >
+                Checkout
+              </Link>
+            </li>
             {!isLogin ? (
               <li>
-                <Link href="/sign-in" className="text-blue-600 font-semibold" onClick={() => setMobileOpen((prev) => !prev)}
-                >Login</Link>
+                <Link
+                  href="/sign-in"
+                  className="text-blue-600 font-semibold"
+                  onClick={() => setMobileOpen((prev) => !prev)}
+                >
+                  Login
+                </Link>
               </li>
             ) : (
               <li>
-                <Button className="font-semibold" onClick={
-                  () => {
-                    setMobileOpen((prev) => !prev) 
+                <Button
+                  className="font-semibold"
+                  onClick={() => {
+                    setMobileOpen((prev) => !prev);
                     logout();
                   }}
-                >Logout</Button>
+                >
+                  Logout
+                </Button>
               </li>
             )}
             {isAdmin && (
               <li>
-                <Link href="/admin/cms" className="font-semibold text-blue-600" onClick={() => setMobileOpen(false)}>
+                <Link
+                  href="/admin/cms"
+                  className="font-semibold text-blue-600"
+                  onClick={() => setMobileOpen(false)}
+                >
                   CMS
                 </Link>
               </li>
             )}
-
           </ul>
         </div>
       )}
     </nav>
-
   );
 };

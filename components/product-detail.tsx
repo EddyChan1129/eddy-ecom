@@ -5,21 +5,20 @@ import { Button } from "./ui/button";
 import { useCartStore } from "@/store/cart-store";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
 type ProductPreview = Omit<Product, "description" | "tags" | "updatedAt">;
 
 interface Props {
   product: Product;
   suggestions: ProductPreview[];
 }
-
 
 export const ProductDetail = ({ product, suggestions }: Props) => {
   const { items, addItem, removeItem } = useCartStore();
@@ -63,25 +62,27 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
         {product.images && product.images?.length > 0 ? (
           <div>
             <CarouselContent>
-              {Array.from({ length: product.images?.length }).map((_, index) => (
-                <CarouselItem key={index}>
-                  <Card className="p-0  border-none">
-                    <CardContent className="flex aspect-square border-none items-center justify-center p-0 ">
-                      <CldImage
-                        src={product.images![index].public_id}
-                        alt={product.name}
-                        width={600}
-                        height={600}
-                        sizes="650px"
-                        className="transition duration-300 hover:opacity-90 object-cover"
-                        priority
-                      />
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
+              {Array.from({ length: product.images?.length }).map(
+                (_, index) => (
+                  <CarouselItem key={index}>
+                    <Card className="p-0  border-none">
+                      <CardContent className="flex aspect-square border-none items-center justify-center p-0 ">
+                        <CldImage
+                          src={product.images![index].public_id}
+                          alt={product.name}
+                          width={600}
+                          height={600}
+                          sizes="650px"
+                          className="transition duration-300 hover:opacity-90 object-cover"
+                          priority
+                        />
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                ),
+              )}
             </CarouselContent>
-            {(product.images?.length > 1) && <CarouselPrevious />}
+            {product.images?.length > 1 && <CarouselPrevious />}
             {product.images?.length > 1 && <CarouselNext />}
           </div>
         ) : (
@@ -90,8 +91,19 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
           </div>
         )}
         <Link href="/products" className="absolute top-0 left-0 ">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 bg-black/70 text-white rounded-full p-2 hover:text-gray-700 hover:bg-gray-200 transition duration-300">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-8 bg-black/70 text-white rounded-full p-2 hover:text-gray-700 hover:bg-gray-200 transition duration-300"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+            />
           </svg>
         </Link>
       </Carousel>
@@ -99,7 +111,11 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
       <div className="md:w-1/2 md:pl-20">
         <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
 
-        {product.category && <p className="text-sm text-gray-500 mb-2">Category: {product.category}</p>}
+        {product.category && (
+          <p className="text-sm text-gray-500 mb-2">
+            Category: {product.category}
+          </p>
+        )}
 
         {product.tags && product.tags?.length > 0 && (
           <p className="text-sm text-gray-500 mb-2">
@@ -116,7 +132,9 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
         </p>
 
         {product.inSale && (
-          <p className="text-sm text-yellow-600 font-semibold mb-2">🔥 On Sale!</p>
+          <p className="text-sm text-yellow-600 font-semibold mb-2">
+            🔥 On Sale!
+          </p>
         )}
 
         <p className="text-gray-700 mb-4">{product.description}</p>
@@ -133,9 +151,7 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
           <Button onClick={onAddItem}>+</Button>
         </div>
         <Link href={"/checkout"}>
-          <Button
-            className="mt-6 bg-blue-600 text-white cursor-pointer"
-          >
+          <Button className="mt-6 bg-blue-600 text-white cursor-pointer">
             Checkout
           </Button>
         </Link>
@@ -145,7 +161,10 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
             <h2 className="text-lg font-bold mb-2">You May Also Like</h2>
             {suggestions.map((item) => (
               <div key={item.id} className="flex gap-3">
-                <Link href={`/products/${item.id}`} className="border rounded-lg h-16 overflow-hidden">
+                <Link
+                  href={`/products/${item.id}`}
+                  className="border rounded-lg h-16 overflow-hidden"
+                >
                   {item.images && item.images[0] && (
                     <div className="relative">
                       <CldImage
@@ -156,18 +175,16 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
                         sizes="300px"
                         className="transition duration-300 hover:opacity-90 object-cover"
                       />
-                      <p className="absolute top-[2rem] left-[50%] translate-[-50%] text-xs bg-gray-500/50 p-1 text-white w-full text-center uppercase tracking-tight font-bold">{item.name}</p>
+                      <p className="absolute top-[2rem] left-[50%] translate-[-50%] text-xs bg-gray-500/50 p-1 text-white w-full text-center uppercase tracking-tight font-bold">
+                        {item.name}
+                      </p>
                     </div>
                   )}
                 </Link>
               </div>
-
             ))}
-
           </div>
         )}
-
-
       </div>
     </div>
   );

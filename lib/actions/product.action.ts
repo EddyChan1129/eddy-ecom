@@ -80,7 +80,7 @@ export async function getProducts({
   const snapshot = await queryRef.get();
   const products: Product[] = snapshot.docs.map((doc) => {
     const data = doc.data();
-  
+
     return {
       id: doc.id,
       name: data.name,
@@ -98,7 +98,6 @@ export async function getProducts({
       updatedAt: data.updatedAt,
     };
   });
-  
 
   const lastDoc = snapshot.docs[snapshot.docs.length - 1];
 
@@ -106,7 +105,9 @@ export async function getProducts({
 }
 
 // Get Product by id
-export async function getProductById(id: string): Promise<{ product: Product | null; suggestions: Product[] }> {
+export async function getProductById(
+  id: string,
+): Promise<{ product: Product | null; suggestions: Product[] }> {
   const productDoc = await db.collection("products").doc(id).get();
   if (!productDoc.exists) return { product: null, suggestions: [] };
 
@@ -118,7 +119,7 @@ export async function getProductById(id: string): Promise<{ product: Product | n
         public_id: img.public_id,
         version: img.version,
       },
-      process.env.CLOUDINARY_API_SECRET!
+      process.env.CLOUDINARY_API_SECRET!,
     );
     return expectedSig === img.signature;
   });
@@ -148,7 +149,7 @@ export async function getProductById(id: string): Promise<{ product: Product | n
             public_id: img.public_id,
             version: img.version,
           },
-          process.env.CLOUDINARY_API_SECRET!
+          process.env.CLOUDINARY_API_SECRET!,
         );
         return sig === img.signature;
       }),
@@ -157,7 +158,6 @@ export async function getProductById(id: string): Promise<{ product: Product | n
 
   return { product, suggestions };
 }
-
 
 export const updateProduct = async (id: string, data: any) => {
   const ref = db.collection("products").doc(id); // ✅ Admin SDK 寫法

@@ -2,13 +2,23 @@
 import { useState } from "react";
 import { ProductCard } from "./product-card";
 import {
-  Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter,
-  SheetHeader, SheetTitle, SheetTrigger
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
-  Pagination, PaginationContent, PaginationItem, PaginationLink,
-  PaginationNext, PaginationPrevious
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 } from "@/components/ui/pagination";
 import {
   Select,
@@ -16,12 +26,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { categories } from "@/const";
 import { Input } from "./ui/input";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-
 
 interface ProductListProps {
   products: Product[];
@@ -36,11 +45,14 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("");
 
-
   const filteredProducts = products.filter((product) => {
     const term = searchTerm.toLowerCase();
-    const matchesSearch = product.name.toLowerCase().includes(term) || product.description?.toLowerCase().includes(term);
-    const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
+    const matchesSearch =
+      product.name.toLowerCase().includes(term) ||
+      product.description?.toLowerCase().includes(term);
+    const matchesCategory = selectedCategory
+      ? product.category === selectedCategory
+      : true;
     return matchesSearch && matchesCategory;
   });
 
@@ -56,12 +68,10 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
     }
   });
 
-
-
   const totalPages = Math.ceil(sortedProducts.length / ITEMS_PER_PAGE);
   const paginatedProducts = sortedProducts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   const goToPage = (page: number) => {
@@ -71,14 +81,16 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
   };
 
   if (!products || products.length === 0) {
-    return <p className="text-center mt-10 text-gray-500">No products found.</p>;
+    return (
+      <p className="text-center mt-10 text-gray-500">No products found.</p>
+    );
   }
 
   const productContainerRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     if (!productContainerRef.current) return;
-  
+
     gsap.fromTo(
       productContainerRef.current.children,
       { opacity: 0, y: 30 },
@@ -88,23 +100,25 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
         duration: 0.6,
         stagger: 0.1,
         ease: "expo.out",
-      }
+      },
     );
   }, [paginatedProducts]);
-  
-
 
   return (
     <div className="">
       <div className="mb-6 flex justify-between items-center">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" className="text-gray-600">Filter & Sort</Button>
+            <Button variant="outline" className="text-gray-600">
+              Filter & Sort
+            </Button>
           </SheetTrigger>
           <SheetContent side="left">
             <SheetHeader>
               <SheetTitle>Filter & Sort Products</SheetTitle>
-              <SheetDescription>Choose how you want to sort the products.</SheetDescription>
+              <SheetDescription>
+                Choose how you want to sort the products.
+              </SheetDescription>
             </SheetHeader>
             <div className="grid gap-2 px-4 py-6">
               <Input
@@ -117,18 +131,26 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
                 placeholder="Search products..."
                 className="w-full max-w-sm rounded border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <Button variant="outline" onClick={() => setSortOption("price-low")}>
+              <Button
+                variant="outline"
+                onClick={() => setSortOption("price-low")}
+              >
                 Sort by Price: Low to High
               </Button>
-              <Button variant="outline" onClick={() => setSortOption("price-high")}>
+              <Button
+                variant="outline"
+                onClick={() => setSortOption("price-high")}
+              >
                 Sort by Price: High to Low
               </Button>
-              <Select name="category"
+              <Select
+                name="category"
                 value={selectedCategory}
                 onValueChange={(value) => {
-                  setSelectedCategory(value)
+                  setSelectedCategory(value);
                   setCurrentPage(1); // reset to page 1 on category change
-                }}>
+                }}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
@@ -163,8 +185,8 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
 
       <ul
         ref={productContainerRef}
-
-        className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+        className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"
+      >
         {paginatedProducts.map((product) => (
           <li key={product.id}>
             <ProductCard product={product} isAdmin={isAdmin} />

@@ -76,3 +76,4 @@ Run the following commands in your terminal:
 ```bash
 git clone https://github.com/yourusername/your-ecommerce-repo.git
 cd your-ecommerce-repo
+```

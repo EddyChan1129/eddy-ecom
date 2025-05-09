@@ -15,7 +15,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   setLoggedIn: (v) => set({ isLoggedIn: v }),
 }));
 
-
 export const useAdminStore = create<AdminState>((set) => ({
   isAdmin: false,
   setIsAdmin: (value) => set({ isAdmin: value }),

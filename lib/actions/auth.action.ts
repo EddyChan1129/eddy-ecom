@@ -7,8 +7,6 @@ import { useAdminStore } from "@/store/auth-store";
 // Session duration (1 week)
 const SESSION_DURATION = 60 * 60 * 24 * 7;
 
-
-
 // Set session cookie
 export async function setSessionCookie(idToken: string) {
   const cookieStore = await cookies();
@@ -99,8 +97,6 @@ export async function signOut() {
   cookieStore.delete("session");
 }
 
-
-
 // Get current user from session cookie
 export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
@@ -144,5 +140,4 @@ export async function isAdmin() {
   useAdminStore.getState().setIsAdmin(true);
   // Check if the user is an admin
   return user.role === "admin";
-
 }

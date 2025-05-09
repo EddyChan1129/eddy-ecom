@@ -13,8 +13,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { categories, defaultTags } from "@/const";
 
@@ -23,7 +23,6 @@ interface UploadedImage {
   version: number;
   signature: string;
 }
-
 
 export default function UploadWidget() {
   const [images, setImages] = useState<UploadedImage[]>([]);
@@ -36,7 +35,10 @@ export default function UploadWidget() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-center mb-8">Upload Product</h1>
-      <form action={uploadProduct} className="flex flex-col gap-4 container mx-auto max-w-[300px]">
+      <form
+        action={uploadProduct}
+        className="flex flex-col gap-4 container mx-auto max-w-[300px]"
+      >
         {/* Name */}
         <Input
           name="name"
@@ -158,16 +160,17 @@ export default function UploadWidget() {
                 ✕
               </Button>
               <input type="hidden" name="public_id[]" value={img.public_id} />
-              <input type="hidden" name="version[]" value={img.version.toString()} />
+              <input
+                type="hidden"
+                name="version[]"
+                value={img.version.toString()}
+              />
               <input type="hidden" name="signature[]" value={img.signature} />
             </div>
           ))}
         </div>
         {/* Submit Button */}
-        <Button
-          type="submit"
-          className="bg-green-600"
-        >
+        <Button type="submit" className="bg-green-600">
           Create Product
         </Button>
       </form>

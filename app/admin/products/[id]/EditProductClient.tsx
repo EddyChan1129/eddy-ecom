@@ -7,7 +7,13 @@ import { deleteImageFromCloudinary } from "@/lib/actions/product.action";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -93,9 +99,27 @@ export default function EditProductClient({ productId }: Props) {
     router.push("/products");
   };
 
-  if (loading) return <p> Loading... <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-            </svg></p>;
+  if (loading)
+    return (
+      <p>
+        {" "}
+        Loading...{" "}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+          />
+        </svg>
+      </p>
+    );
 
   return (
     <div className="p-8 max-w-xl mx-auto space-y-4 flex flex-col">
@@ -112,7 +136,9 @@ export default function EditProductClient({ productId }: Props) {
       <Input
         type="number"
         value={form.price}
-        onChange={(e) => setForm({ ...form, price: parseFloat(e.target.value) })}
+        onChange={(e) =>
+          setForm({ ...form, price: parseFloat(e.target.value) })
+        }
         placeholder="Product Price"
       />
       <Select
@@ -228,7 +254,10 @@ export default function EditProductClient({ productId }: Props) {
         )}
       </CldUploadWidget>
 
-      <Button onClick={handleSave} className="bg-green-600 text-white px-4 py-2">
+      <Button
+        onClick={handleSave}
+        className="bg-green-600 text-white px-4 py-2"
+      >
         Save
       </Button>
     </div>

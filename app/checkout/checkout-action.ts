@@ -19,15 +19,14 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
     price_data: {
       currency: "CAD",
       product_data: { name: item.name },
-      unit_amount: item.price * 100
+      unit_amount: item.price * 100,
     },
     quantity: item.quantity,
   }));
 
   const description = items
-  .map((item: CartItem) => `${item.name} , qty: ${item.quantity}\n`)
-  .join("\n");
-
+    .map((item: CartItem) => `${item.name} , qty: ${item.quantity}\n`)
+    .join("\n");
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],

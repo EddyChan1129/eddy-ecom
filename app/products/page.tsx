@@ -12,7 +12,8 @@ export default async function ProductsPage(props: {
 }) {
   const searchParams = await props.searchParams;
 
-  const category = typeof searchParams.category === "string" ? searchParams.category : "";
+  const category =
+    typeof searchParams.category === "string" ? searchParams.category : "";
   const sort = typeof searchParams.sort === "string" ? searchParams.sort : "";
 
   const { products } = await getProducts({
@@ -23,11 +24,5 @@ export default async function ProductsPage(props: {
 
   const isAdminLogin = await isAdmin();
 
-  return (
-    <ProductList
-      products={products}
-      isAdmin={isAdminLogin}
-    />
-  );
+  return <ProductList products={products} isAdmin={isAdminLogin} />;
 }
-

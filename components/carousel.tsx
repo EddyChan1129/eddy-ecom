@@ -11,7 +11,6 @@ interface Props {
 export const Carousel = ({ products }: Props) => {
   const [current, setCurrent] = useState<number>(0);
 
-
   useEffect(() => {
     if (products.length === 0) return;
 
@@ -50,7 +49,9 @@ export const Carousel = ({ products }: Props) => {
           <CardTitle className="text-3xl font-bold text-white mb-2">
             {currentProduct.name}
           </CardTitle>
-          <p className="text-xl text-white">${currentProduct.price.toFixed(2)}</p>
+          <p className="text-xl text-white">
+            ${currentProduct.price.toFixed(2)}
+          </p>
         </div>
       </CardContent>
     </Card>
