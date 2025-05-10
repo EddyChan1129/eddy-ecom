@@ -5,6 +5,9 @@ import { Navbar } from "@/components/navbar";
 export const metadata: Metadata = {
   title: "Eddy World",
   description: "Welcome to Eddy World, your one-stop shop for all things Eddy!",
+  icons: {
+    icon: "/favicon.jpg", // or "/favicon.svg" or any other format
+  },
 };
 
 export default function RootLayout({

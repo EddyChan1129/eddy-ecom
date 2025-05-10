@@ -21,10 +21,13 @@ export default async function Home() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 md:grid-cols-2 items-center justify-items-center gap-12 px-6 sm:px-12">
           <div className="w-full max-w-md space-y-6 text-center md:text-left">
             <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 md:text-5xl">
-              Welcome to <span className="text-blue-600">My Ecommerce</span>
+              Welcome to <span className="text-blue-600">EC Ecommerce</span>
             </h2>
             <p className="text-lg text-gray-600">
-              Discover the latest products at unbeatable prices.
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+              Molestiae doloribus repudiandae beatae enim quis iste laboriosam
+              dolorum dolores libero, veniam at reiciendis maxime accusantium
+              totam possimus. Repellendus harum tenetur fugit.
             </p>
             <Button
               asChild

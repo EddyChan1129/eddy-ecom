@@ -15,6 +15,7 @@ import {
   signOut,
 } from "@/lib/actions/auth.action";
 import { useAuthStore, useAdminStore } from "@/store/auth-store"; // ✅ 引入
+import Image from "next/image";
 
 export const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -49,9 +50,15 @@ export const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="text-xl font-bold tracking-tight text-gray-800 hover:text-blue-600 transition"
+          className="text-xl font-bold tracking-tight text-gray-800 hover:text-blue-600 transition overflow-hidden flex items-center"
         >
-          Ecommerce
+          <Image
+            src={"/favicon.ico"}
+            alt="Logo"
+            width={40}
+            height={40}
+            className="rounded-full "
+          />
         </Link>
         <div className="hidden md:flex items-center space-x-8 text-gray-700 text-sm font-medium">
           <Link

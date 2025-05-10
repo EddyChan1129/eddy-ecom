@@ -38,26 +38,7 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 items-center ">
-      {/* <div className="relative h-96 w-full md:w-1/2 rounded-lg overflow-hidden flex items-center justify-center bg-gray-100">
-        {product.images && product.images[current] ? (
-          <CldImage
-            src={product.images[current].public_id || "sample/tbh38rpgtlcp5pat3kry"}
-            alt={product.name}
-            width={600}
-            height={600}
-            sizes="650px"
-            className="transition duration-300 hover:opacity-90 object-cover"
-            priority
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-gray-500 text-lg font-medium">
-            No image provide</div>
-
-        )}
-        <Link href="/products" className="absolute top-0 left-0 "><Button className="cursor-pointer" >Back</Button></Link>
-      </div> */}
-
+    <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
       <Carousel className="relative w-full md:w-1/2 rounded-lg">
         {product.images && product.images?.length > 0 ? (
           <div>
@@ -159,30 +140,29 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
         {suggestions.length > 0 && (
           <div className="mt-8 ">
             <h2 className="text-lg font-bold mb-2">You May Also Like</h2>
-            {suggestions.map((item) => (
-              <div key={item.id} className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
+              {suggestions.map((item) => (
                 <Link
+                  key={item.id}
                   href={`/products/${item.id}`}
-                  className="border rounded-lg h-16 overflow-hidden"
+                  className="border rounded-lg h-16 overflow-hidden flex shrink-0 relative"
                 >
                   {item.images && item.images[0] && (
-                    <div className="relative">
-                      <CldImage
-                        src={item.images[0].public_id}
-                        alt={item.name}
-                        width={100}
-                        height={100}
-                        sizes="300px"
-                        className="transition duration-300 hover:opacity-90 object-cover"
-                      />
-                      <p className="absolute top-[2rem] left-[50%] translate-[-50%] text-xs bg-gray-500/50 p-1 text-white w-full text-center uppercase tracking-tight font-bold">
-                        {item.name}
-                      </p>
-                    </div>
+                    <CldImage
+                      src={item.images[0].public_id}
+                      alt={item.name}
+                      width={100}
+                      height={100}
+                      sizes="300px"
+                      className="transition duration-300 hover:opacity-90 object-cover"
+                    />
                   )}
+                  <p className="absolute top-[2rem] left-[50%] translate-[-50%] text-xs bg-gray-500/50 p-1 text-white w-full text-center uppercase tracking-tight font-bold">
+                    {item.name}
+                  </p>
                 </Link>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
       </div>
