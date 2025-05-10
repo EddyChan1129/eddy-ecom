@@ -25,8 +25,6 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
   const cartItem = items.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
 
-  const [current, setCurrent] = useState<number>(0);
-
   const onAddItem = () => {
     addItem({
       id: product.id,
@@ -54,9 +52,20 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
                           width={600}
                           height={600}
                           sizes="650px"
-                          className="transition duration-300 hover:opacity-90 object-cover"
+                          className="transition duration-300 hover:opacity-90 object-cover relative"
                           priority
                         />
+                        {!product.inStock && (
+                          <span className="absolute top-1/2 left-0 w-full -translate-y-1/2 bg-black/50 text-white text-center font-semibold py-2 uppercase tracking-widest text-3xl">
+                            No Stock
+                          </span>
+                        )}
+
+                        {product.inSale && (
+                          <span className="bg-gradient-to-r from-yellow-200 to-yellow-900 text-white text-xs font-bold px-3 py-2 shadow-lg rounded-bl-2xl animate-pulse uppercase tracking-wider w-1/3 text-center absolute top-0 right-0 ">
+                            On Sale
+                          </span>
+                        )}
                       </CardContent>
                     </Card>
                   </CarouselItem>
@@ -71,14 +80,17 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
             No image provide
           </div>
         )}
-        <Link href="/products" className="absolute top-0 left-0 ">
+        <Link
+          href="/products"
+          className="absolute top-0 left-0 bg-black/70 text-white rounded-br-2xl p-2 hover:text-gray-700 hover:bg-gray-200 transition duration-300"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            viewBox="0 0 24 24"
+            viewBox="0 0 26 26"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="size-8 bg-black/70 text-white rounded-full p-2 hover:text-gray-700 hover:bg-gray-200 transition duration-300"
+            className="size-5 "
           >
             <path
               strokeLinecap="round"
@@ -90,35 +102,30 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
       </Carousel>
 
       <div className="md:w-1/2 md:pl-20">
-        <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+        <div className="relative flex items-center">
+          <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1>
+        </div>
 
         {product.category && (
-          <p className="text-sm text-gray-500 mb-2">
-            Category: {product.category}
+          <p className="inline-block uppercase w-1/2 text-center my-5 px-3 py-1 rounded-full border border-amber-300 bg-amber-50 text-amber-700 text-sm font-medium shadow-sm hover:bg-amber-100 transition-colors duration-200">
+            {product.category}
           </p>
         )}
 
-        {product.tags && product.tags?.length > 0 && (
-          <p className="text-sm text-gray-500 mb-2">
-            Tags: {product.tags.join(", ")}
-          </p>
+        {product.tags && product.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-2">
+            {product.tags.map((tag, index) => (
+              <span
+                key={index}
+                className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full shadow-sm hover:bg-gray-200 transition-colors duration-200"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
         )}
 
-        <p className="text-sm mb-2">
-          {product.inStock ? (
-            <span className="text-green-600 font-semibold">In Stock</span>
-          ) : (
-            <span className="text-red-500 font-semibold">Out of Stock</span>
-          )}
-        </p>
-
-        {product.inSale && (
-          <p className="text-sm text-yellow-600 font-semibold mb-2">
-            🔥 On Sale!
-          </p>
-        )}
-
-        <p className="text-gray-700 mb-4">{product.description}</p>
+        <p className="text-gray-700 my-6">{product.description}</p>
 
         <p className="text-lg font-semibold text-gray-900 mb-4">
           ${product.price.toFixed(2)}
@@ -132,7 +139,21 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
           <Button onClick={onAddItem}>+</Button>
         </div>
         <Link href={"/checkout"}>
-          <Button className="mt-6 bg-blue-600 text-white cursor-pointer">
+          <Button className="mt-6 uppercase font-bold tracking-wider bg-blue-600 text-white cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="sm:size-4 size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
+              />
+            </svg>
             Checkout
           </Button>
         </Link>
