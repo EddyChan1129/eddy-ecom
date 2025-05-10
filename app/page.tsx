@@ -20,14 +20,13 @@ export default async function Home() {
       <section className="bg-neutral-100 py-12 sm:py-16">
         <div className="mx-auto grid max-w-7xl grid-cols-1 md:grid-cols-2 items-center justify-items-center gap-12 px-6 sm:px-12">
           <div className="w-full max-w-md space-y-6 text-center md:text-left">
-            <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 md:text-5xl">
+            <h2 className=" text-3xl font-extrabold leading-tight tracking-tight text-gray-900 md:text-4xl lg:text-6xl">
               Welcome to <span className="text-blue-600">EC Ecommerce</span>
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="sm:text-sm md:text-xs lg:text-2xl text-gray-600">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit.
               Molestiae doloribus repudiandae beatae enim quis iste laboriosam
-              dolorum dolores libero, veniam at reiciendis maxime accusantium
-              totam possimus. Repellendus harum tenetur fugit.
+              dolorum dolores libero.
             </p>
             <Button
               asChild
@@ -39,12 +38,12 @@ export default async function Home() {
           </div>
 
           {featuredImage ? (
-            <div className="relative sm:hidden md:flex w-[320px] h-[380px] md:w-[250px] md:h-[450px] lg:w-[380px] lg:h-[500px] shadow-xl rounded-xl overflow-hidden">
+            <div className="relative sm:hidden md:flex w-full h-full md:h-[300px] lg:h-[500px] shadow-xl rounded-xl overflow-hidden bg-red-900">
               <CldImageWrapper
                 src={featuredImage.public_id}
                 alt="Featured Product"
                 fill
-                sizes="(max-width: 768px) 90vw, 450px"
+                sizes="100vw"
                 className="object-cover transition-transform duration-500 ease-in-out hover:scale-105"
                 priority
               />

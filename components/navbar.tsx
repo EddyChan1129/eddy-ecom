@@ -47,20 +47,20 @@ export const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div className="container mx-auto flex items-center justify-between px-6 py-4">
+      <div className="container mx-auto flex items-center justify-between px-6 py-4 ">
         <Link
           href="/"
           className="text-xl font-bold tracking-tight text-gray-800 hover:text-blue-600 transition overflow-hidden flex items-center"
         >
           <Image
-            src={"/favicon.ico"}
+            src="/favicon.jpg"
             alt="Logo"
             width={40}
             height={40}
             className="rounded-full "
           />
         </Link>
-        <div className="hidden md:flex items-center space-x-8 text-gray-700 text-sm font-medium">
+        <div className="hidden md:flex items-center  md:space-x-4 lg:space-x-10 text-gray-700 md:text-sm lg:text-xl font-medium uppercase tracking-wider">
           <Link
             href="/"
             className="hover:text-blue-600 hover:underline transition"
@@ -92,14 +92,14 @@ export const Navbar = () => {
         <div className="flex items-center space-x-4">
           {!isLogin ? (
             <Link href="/sign-in" className="hidden md:block">
-              <Button className="rounded-full bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 transition">
+              <Button className="text-xs rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-4 transition uppercase">
                 Login
               </Button>
             </Link>
           ) : (
             <Button
               onClick={logout}
-              className="hidden md:block rounded-full bg-gray-800 hover:bg-gray-700 text-white px-5 py-2 transition"
+              className="text-xs hidden md:block rounded-full bg-gray-800 hover:bg-gray-700 text-white px-4 transition uppercase"
             >
               Logout
             </Button>

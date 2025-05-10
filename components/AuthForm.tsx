@@ -42,11 +42,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
     },
   });
 
-  const handleLogout = async () => {
-    await signOut(); // 這會刪除 cookie（Server Action）
-    router.push("/"); // 或 "/"
-  };
-
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       if (type === "sign-up") {
@@ -115,20 +110,22 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
   return (
     <div className="card-border lg:min-w-[566px]">
-      <Button onClick={handleLogout}>logout</Button>
+
       <div className="flex flex-col gap-6 card py-14 px-10">
         <div className="flex flex-row gap-2 justify-center">
           <Image
-            src="/logo.svg"
+            src="/favicon.jpg"
             alt="logo"
-            height={32}
-            width={38}
-            className="h-auto" // Tailwind 寫法
+            height={320}
+            width={380}
+            className="h-auto rounded-full" // Tailwind 寫法
           />
-          <h2 className="text-primary-100">PrepWise</h2>
+
         </div>
 
-        <h3>Practice job interviews with AI</h3>
+        <h2 className="text-3xl font-bold text-center uppercase tracking-wide text-gray-700 md:text-4xl lg:text-6xl">
+          {isSignIn ? "Sign In" : "Create an Account"}
+        </h2>
 
         <Form {...form}>
           <form
