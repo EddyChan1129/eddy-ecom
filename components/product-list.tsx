@@ -124,7 +124,7 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
                 Choose how you want to sort the products.
               </SheetDescription>
             </SheetHeader>
-            <div className="grid gap-4 px-4 py-6 text-gray-500">
+            <div className="grid gap-4 px-4 py-6 text-gray-500 ">
               <RadioGroup
                 value={sortOption}
                 onValueChange={(value) => {
@@ -133,17 +133,17 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
                 }}
                 className="flex"
               >
-                <Label>Price:</Label>
+                <Label className="text-xs">Price:</Label>
 
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="price-low" id="price-low" />
-                  <label htmlFor="price-low" className="text-sm">
+                  <label htmlFor="price-low" className="text-xs">
                     Low to High
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="price-high" id="price-high" />
-                  <label htmlFor="price-high" className="text-sm">
+                  <label htmlFor="price-high" className="text-xs">
                     High to Low
                   </label>
                 </div>
@@ -157,7 +157,7 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
                   setOpen(false); // ✅ 揀完自動收起 Sheet
                 }}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full text-xs">
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
                 <SelectContent>

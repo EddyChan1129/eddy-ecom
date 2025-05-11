@@ -20,7 +20,7 @@ export default async function Home() {
       <section className="bg-neutral-100 py-12 sm:py-16">
         <div className="mx-auto grid max-w-7xl grid-cols-1 md:grid-cols-2 items-center justify-items-center gap-12 px-6 sm:px-12">
           <div className="w-full max-w-md space-y-6 text-center md:text-left">
-            <h2 className=" text-3xl font-extrabold leading-tight tracking-tight text-gray-900 md:text-4xl lg:text-6xl">
+            <h2 className=" text-5xl font-extrabold leading-tight tracking-tight text-gray-900 md:text-4xl lg:text-6xl">
               Welcome <br /> <span className="main-color">MY BAGEL</span>
             </h2>
             <p className="sm:text-sm md:text-xs lg:text-2xl text-gray-600">

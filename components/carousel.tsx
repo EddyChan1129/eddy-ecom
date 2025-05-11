@@ -39,13 +39,13 @@ export const Carousel = ({ products }: Props) => {
             alt={currentProduct.name}
             fill
             sizes="(max-width: 768px) 100vw, 800px"
-            className="transition-opacity duration-500 ease-in-out object-cover w-full h-full"
+            className="object-cover w-full h-full"
           />
         </div>
       )}
 
-      <CardContent className=" absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
-        <div className="text-center bg-gray-900/60 p-3 rounded-2xl uppercase tracking-widest">
+      <CardContent className=" absolute w-full p-0 flex flex-col justify-center top-1/2 -translate-y-1/2">
+        <div className="text-center bg-gray-500/60 p-3 uppercase tracking-widest">
           <CardTitle className="text-3xl font-bold text-white mb-2">
             {currentProduct.name}
           </CardTitle>

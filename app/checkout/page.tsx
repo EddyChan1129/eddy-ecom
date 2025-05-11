@@ -80,7 +80,7 @@ export default function CheckoutPage() {
         <Button
           type="submit"
           variant="default"
-          className="w-full"
+          className="w-full attractive text-white cursor-pointer"
           disabled={isPending}
         >
           {isPending ? "Processing..." : "Proceed to Payment"}

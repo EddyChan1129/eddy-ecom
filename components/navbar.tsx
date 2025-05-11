@@ -162,7 +162,7 @@ export const Navbar = () => {
               <li>
                 <Link
                   href="/sign-in"
-                  className="text-blue-600 font-semibold"
+                  className="main-color font-semibold"
                   onClick={() => setMobileOpen((prev) => !prev)}
                 >
                   Login
