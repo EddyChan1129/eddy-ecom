@@ -84,7 +84,7 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="absolute top-[-10px] left-0 size-8 rounded-md w-8 h-12 p-1 animate-pulse"
+            className="absolute text-yellow-700 top-[-10px] left-0 size-8 rounded-md w-10 h-12 p-1 animate-pulse"
           >
             <path
               strokeLinecap="round"
@@ -143,7 +143,7 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
           ${product.price.toFixed(2)}
         </p>
         <Link href={`/products/${product.id}`}>
-          <Button className=" bg-black text-white hover:bg-gray-800 transition duration-300 uppercase tracking-widest sm:text-xs md:text-sm">
+          <Button className=" bg-gray-500 font-bold text-white hover:bg-yellow-800 transition duration-1000 uppercase tracking-widest sm:text-xs md:text-sm cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

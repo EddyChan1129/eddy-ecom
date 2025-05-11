@@ -27,10 +27,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
 import { categories } from "@/const";
 import { Input } from "./ui/input";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { Label } from "./ui/label";
 
 interface ProductListProps {
   products: Product[];
@@ -44,6 +47,7 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
   const [sortOption, setSortOption] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [open, setOpen] = useState(false);
 
   const filteredProducts = products.filter((product) => {
     const term = searchTerm.toLowerCase();
@@ -106,10 +110,10 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
 
   return (
     <div className="">
-      <div className="mb-6 flex justify-between items-center">
-        <Sheet>
+      <div className="mb-6 flex justify-between items-center ">
+        <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" className="text-gray-600">
+            <Button className="bg-gray-500 cursor-pointer text-white hover:bg-gray-600 transition-all duration-1000 attractive">
               Filter & Sort
             </Button>
           </SheetTrigger>
@@ -120,35 +124,37 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
                 Choose how you want to sort the products.
               </SheetDescription>
             </SheetHeader>
-            <div className="grid gap-2 px-4 py-6">
-              <Input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  setCurrentPage(1); // reset to page 1 when searching
+            <div className="grid gap-4 px-4 py-6 text-gray-500">
+              <RadioGroup
+                value={sortOption}
+                onValueChange={(value) => {
+                  setSortOption(value);
+                  setOpen(false); // ✅ 揀完自動收起 Sheet
                 }}
-                placeholder="Search products..."
-                className="w-full max-w-sm rounded border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <Button
-                variant="outline"
-                onClick={() => setSortOption("price-low")}
+                className="flex"
               >
-                Sort by Price: Low to High
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setSortOption("price-high")}
-              >
-                Sort by Price: High to Low
-              </Button>
+                <Label>Price:</Label>
+
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="price-low" id="price-low" />
+                  <label htmlFor="price-low" className="text-sm">
+                    Low to High
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="price-high" id="price-high" />
+                  <label htmlFor="price-high" className="text-sm">
+                    High to Low
+                  </label>
+                </div>
+              </RadioGroup>
               <Select
                 name="category"
                 value={selectedCategory}
                 onValueChange={(value) => {
                   setSelectedCategory(value);
                   setCurrentPage(1); // reset to page 1 on category change
+                  setOpen(false); // ✅ 揀完自動收起 Sheet
                 }}
               >
                 <SelectTrigger className="w-full">
@@ -162,21 +168,40 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
                   ))}
                 </SelectContent>
               </Select>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  setSelectedCategory("");
-                  setSortOption("");
-                  setSearchTerm("");
-                  setCurrentPage(1);
+
+              <Input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1); // reset to page 1 when searching
                 }}
-              >
-                Clear Filters
-              </Button>
+                placeholder="Search products..."
+                className="w-full max-w-sm rounded border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <SheetClose asChild>
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    setSelectedCategory("");
+                    setSortOption("");
+                    setSearchTerm("");
+                    setCurrentPage(1);
+                  }}
+                  className="text-gray-500"
+                >
+                  Clear Filters
+                </Button>
+              </SheetClose>
             </div>
             <SheetFooter>
               <SheetClose asChild>
-                <Button type="button">Close</Button>
+                <Button
+                  type="button"
+                  className="attractive uppercase tracking-widest cursor-pointer"
+                >
+                  Close
+                </Button>
               </SheetClose>
             </SheetFooter>
           </SheetContent>

@@ -45,7 +45,7 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
     router.push("/checkout");
   };
   return (
-    <div className="container mx-auto px-8 flex flex-col lg:flex-row gap-8 justify-center items-center">
+    <div className=" container mx-auto px-8 flex flex-col lg:flex-row gap-8 justify-center items-center">
       <Carousel className="relative w-full lg:w-1/2 rounded-lg">
         {product.images && product.images?.length > 0 ? (
           <div>
@@ -61,7 +61,7 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
                           width={600}
                           height={600}
                           sizes="650px"
-                          className="transition duration-300 hover:opacity-90 object-cover relative"
+                          className="w-full transition duration-300 hover:opacity-90 object-cover relative"
                           priority
                         />
                       </CardContent>
