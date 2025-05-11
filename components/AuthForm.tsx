@@ -113,7 +113,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       <div className="flex flex-col gap-6 card py-14 px-10">
         <div className="flex flex-row gap-2 justify-center">
           <Image
-            src="/favicon.jpg"
+            src="/icon.png"
             alt="logo"
             height={320}
             width={380}
@@ -135,7 +135,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 control={form.control}
                 name="name"
                 label="Name"
-                placeholder="Your Name"
+                placeholder="John Doe"
                 type="text"
               />
             )}
@@ -144,7 +144,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
               control={form.control}
               name="email"
               label="Email"
-              placeholder="Your email address"
+              placeholder="xyz@example.com"
               type="email"
             />
 
@@ -167,9 +167,13 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
         <p className="flex justify-between">
           {isSignIn ? (
-            <span className="bg-yellow-300">No account yet?</span>
+            <span className="text-gray-500 font-thin italic">
+              No account yet?
+            </span>
           ) : (
-            <span className=" flex w-1/2">Have an account already?</span>
+            <span className=" flex w-1/2 text-gray-500 font-thin italic">
+              Have an account already?
+            </span>
           )}
           <Link
             href={!isSignIn ? "/sign-in" : "/sign-up"}

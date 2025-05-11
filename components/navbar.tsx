@@ -53,7 +53,7 @@ export const Navbar = () => {
           className="text-xl font-bold tracking-tight text-gray-800 hover:text-blue-600 transition overflow-hidden flex items-center"
         >
           <Image
-            src="/favicon.jpg"
+            src="/logo.png"
             alt="Logo"
             width={40}
             height={40}

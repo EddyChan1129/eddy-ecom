@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Carousel } from "@/components/carousel";
 import { getProducts } from "@/lib/actions/product.action";
 import CldImageWrapper from "@/components/CldImageWrapper";
+import Image from "next/image";
 
 export const revalidate = 0;
 
@@ -24,7 +25,9 @@ export default async function Home() {
               Welcome <br /> <span className="main-color">MY BAGEL</span>
             </h2>
             <p className="sm:text-sm md:text-xs lg:text-2xl text-gray-600">
-              Discover Canada’s most delicious bagels — freshly baked, perfectly chewy, and packed with flavor. Taste the difference with every bite.
+              Discover Canada’s most delicious bagels — freshly baked, perfectly
+              chewy, and packed with flavor. Taste the difference with every
+              bite.
             </p>
             <Button
               asChild
@@ -35,25 +38,16 @@ export default async function Home() {
             </Button>
           </div>
 
-          {featuredImage ? (
-            <div className="relative sm:hidden md:flex w-full h-full md:h-[300px] lg:h-[500px] shadow-xl rounded-xl overflow-hidden bg-red-900">
-              <CldImageWrapper
-                src={featuredImage.public_id}
-                alt="Featured Product"
-                fill
-                sizes="100vw"
-                className="object-cover transition-transform duration-500 ease-in-out hover:scale-105"
-                priority
-              />
-            </div>
-          ) : (
-            <div
-              className="w-[450px] h-[450px] flex items-center justify-center bg-gray-300 text-gray-600 rounded-lg"
-              aria-label="No image available"
-            >
-              No image
-            </div>
-          )}
+          <div className="relative sm:hidden md:flex w-full h-full md:h-[300px] lg:h-[500px] shadow-xl rounded-xl overflow-hidden bg-red-900">
+            <Image
+              src="/logo.png"
+              alt="Featured Product"
+              fill
+              sizes="100vw"
+              className="object-cover transition-transform duration-500 ease-in-out hover:scale-105"
+              priority
+            />
+          </div>
         </div>
       </section>
 
