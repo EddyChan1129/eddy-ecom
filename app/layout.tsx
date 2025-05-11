@@ -3,8 +3,9 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 
 export const metadata: Metadata = {
-  title: "Eddy World",
-  description: "Welcome to Eddy World, your one-stop shop for all things Eddy!",
+  title: "My Bagel",
+  description:
+    "Freshly baked bagels, made with love. Discover your perfect bite at My Bagel today!",
   icons: {
     icon: "/logo.png", // or "/favicon.svg" or any other format
   },
