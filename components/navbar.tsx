@@ -94,7 +94,7 @@ export const Navbar = () => {
           {isAdmin && (
             <Link
               href="/admin/cms"
-              className="text-blue-700 main-color font-semibold hover:underline"
+              className="text-blue-700 main-color font-semibold hover:underline border border-yellow-500 rounded-md px-4 py-2 hover:bg-gray-100"
             >
               CMS
             </Link>
@@ -188,6 +188,17 @@ export const Navbar = () => {
                 Checkout
               </Link>
             </li>
+            {isAdmin && (
+              <li>
+                <Link
+                  href="/admin/cms"
+                  className="font-semibold main-color attractive border border-yellow-300 rounded-md px-4 py-2 hover:bg-gray-100"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  CMS
+                </Link>
+              </li>
+            )}
             {!isLogin ? (
               <li>
                 <Link
@@ -209,17 +220,6 @@ export const Navbar = () => {
                 >
                   Logout
                 </Button>
-              </li>
-            )}
-            {isAdmin && (
-              <li>
-                <Link
-                  href="/admin/cms"
-                  className="font-semibold main-color attractive"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  CMS
-                </Link>
               </li>
             )}
           </ul>
