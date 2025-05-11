@@ -71,7 +71,7 @@ export const Navbar = () => {
             href="/products"
             className="hover:text-blue-600 hover:underline transition"
           >
-            Products
+            Menus
           </Link>
           <Link
             href="/checkout"
@@ -146,7 +146,7 @@ export const Navbar = () => {
                 className="hover:text-blue-600"
                 onClick={() => setMobileOpen((prev) => !prev)}
               >
-                Products
+                Menus
               </Link>
             </li>
             <li>
