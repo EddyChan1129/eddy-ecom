@@ -142,11 +142,29 @@ export const Navbar = () => {
             </li>
             <li>
               <Link
+                href="/"
+                className="hover:text-blue-600"
+                onClick={() => setMobileOpen((prev) => !prev)}
+              >
+                About us
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/products"
                 className="hover:text-blue-600"
                 onClick={() => setMobileOpen((prev) => !prev)}
               >
                 Menus
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/"
+                className="hover:text-blue-600"
+                onClick={() => setMobileOpen((prev) => !prev)}
+              >
+                FAQ
               </Link>
             </li>
             <li>

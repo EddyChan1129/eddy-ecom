@@ -24,9 +24,7 @@ export default async function Home() {
               Welcome <br /> <span className="main-color">MY BAGEL</span>
             </h2>
             <p className="sm:text-sm md:text-xs lg:text-2xl text-gray-600">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Molestiae doloribus repudiandae beatae enim quis iste laboriosam
-              dolorum dolores libero.
+              Discover Canada’s most delicious bagels — freshly baked, perfectly chewy, and packed with flavor. Taste the difference with every bite.
             </p>
             <Button
               asChild
