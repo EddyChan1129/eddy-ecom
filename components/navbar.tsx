@@ -60,7 +60,7 @@ export const Navbar = () => {
             className="rounded-full "
           />
         </Link>
-        <div className="hidden md:flex items-center  md:space-x-4 lg:space-x-10 text-gray-700 md:text-sm lg:text-xl font-medium uppercase tracking-wider">
+        <div className="hidden md:flex items-center  md:space-x-4 lg:space-x-10 text-gray-700 md:text-sm lg:text-xl font-medium uppercase tracking-wider w-7/10 flex-wrap justify-center">
           <Link
             href="/"
             className="hover:text-blue-600 hover:underline transition"
@@ -68,10 +68,22 @@ export const Navbar = () => {
             Home
           </Link>
           <Link
+            href="/"
+            className="hover:text-blue-600 hover:underline transition"
+          >
+            About us
+          </Link>
+          <Link
             href="/products"
             className="hover:text-blue-600 hover:underline transition"
           >
             Menus
+          </Link>
+          <Link
+            href="/"
+            className="hover:text-blue-600 hover:underline transition"
+          >
+            FAQ
           </Link>
           <Link
             href="/checkout"
