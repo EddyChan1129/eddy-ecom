@@ -77,19 +77,13 @@ export const Navbar = () => {
             href="/products"
             className="hover:text-blue-600 hover:underline transition"
           >
-            Menus
+            Menu
           </Link>
           <Link
             href="/"
             className="hover:text-blue-600 hover:underline transition"
           >
             FAQ
-          </Link>
-          <Link
-            href="/checkout"
-            className="hover:text-blue-600 hover:underline transition"
-          >
-            Checkout
           </Link>
           {isAdmin && (
             <Link
@@ -167,7 +161,7 @@ export const Navbar = () => {
                 className="hover:text-blue-600"
                 onClick={() => setMobileOpen((prev) => !prev)}
               >
-                Menus
+                Menu
               </Link>
             </li>
             <li>
@@ -177,15 +171,6 @@ export const Navbar = () => {
                 onClick={() => setMobileOpen((prev) => !prev)}
               >
                 FAQ
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/checkout"
-                className="hover:text-blue-600"
-                onClick={() => setMobileOpen((prev) => !prev)}
-              >
-                Checkout
               </Link>
             </li>
             {isAdmin && (

@@ -171,7 +171,9 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
             –
           </Button>
           <span className="text-lg font-semibold ">{quantity}</span>
-          <Button onClick={onAddItem}>+</Button>
+          <Button className="bg-gray-500" onClick={onAddItem}>
+            +
+          </Button>
         </div>
 
         <Button
