@@ -5,8 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCartStore } from "@/store/cart-store";
 import { checkoutAction } from "./checkout-action";
 import Link from "next/link";
+import { useTransition } from "react";
 
 export default function CheckoutPage() {
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    startTransition(async () => {
+      await checkoutAction(new FormData(event.currentTarget));
+    });
+  };
+
   const { items, removeItem, addItem } = useCartStore();
   const total = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -63,16 +74,24 @@ export default function CheckoutPage() {
           </div>
         </CardContent>
       </Card>
-      <form action={checkoutAction} className="max-w-md mx-auto">
+
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <input type="hidden" name="items" value={JSON.stringify(items)} />
-        <Button type="submit" variant="default" className="w-full">
-          Proceed to Payment
+        <Button
+          type="submit"
+          variant="default"
+          className="w-full"
+          disabled={isPending}
+        >
+          {isPending ? "Processing..." : "Proceed to Payment"}
         </Button>
+
         <Link href={"/products"} className="mt-4 block">
           <Button
-            type="submit"
+            type="button"
             variant="secondary"
             className="w-full cursor-pointer"
+            disabled={isPending}
           >
             Continue Shopping
           </Button>

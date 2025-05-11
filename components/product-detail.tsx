@@ -13,6 +13,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useRouter } from "next/navigation";
+
 type ProductPreview = Omit<Product, "description" | "tags" | "updatedAt">;
 
 interface Props {
@@ -21,6 +23,8 @@ interface Props {
 }
 
 export const ProductDetail = ({ product, suggestions }: Props) => {
+  const router = useRouter();
+
   const { items, addItem, removeItem } = useCartStore();
   const cartItem = items.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
@@ -35,9 +39,14 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
     });
   };
 
+  const handleCheckout = () => {
+    if (!product.inStock) return;
+    // navigate to the checkout page using useRouter or any other method
+    router.push("/checkout");
+  };
   return (
-    <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
-      <Carousel className="relative w-full md:w-1/2 rounded-lg">
+    <div className="container mx-auto px-8 flex flex-col lg:flex-row gap-8 justify-center items-center">
+      <Carousel className="relative w-full lg:w-1/2 rounded-lg">
         {product.images && product.images?.length > 0 ? (
           <div>
             <CarouselContent>
@@ -55,17 +64,6 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
                           className="transition duration-300 hover:opacity-90 object-cover relative"
                           priority
                         />
-                        {!product.inStock && (
-                          <span className="absolute top-1/2 left-0 w-full -translate-y-1/2 bg-black/50 text-white text-center font-semibold py-2 uppercase tracking-widest text-3xl">
-                            No Stock
-                          </span>
-                        )}
-
-                        {product.inSale && (
-                          <span className="bg-gradient-to-r from-yellow-200 to-yellow-900 text-white text-xs font-bold px-3 py-2 shadow-lg rounded-bl-2xl animate-pulse uppercase tracking-wider w-1/3 text-center absolute top-0 right-0 ">
-                            On Sale
-                          </span>
-                        )}
                       </CardContent>
                     </Card>
                   </CarouselItem>
@@ -74,6 +72,43 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
             </CarouselContent>
             {product.images?.length > 1 && <CarouselPrevious />}
             {product.images?.length > 1 && <CarouselNext />}
+            {!product.inStock && (
+              <span className="absolute top-1/2 left-0 w-full -translate-y-1/2 bg-black/50 text-white text-center font-semibold py-2 uppercase tracking-widest text-3xl">
+                No Stock
+              </span>
+            )}
+
+            {product.inSale && (
+              <span className="attractive animate-pulse text-white text-xs font-bold px-3 py-2 shadow-lg rounded-bl-2xl  uppercase tracking-wider w-1/3 text-center absolute top-0 right-0 ">
+                On Sale
+              </span>
+            )}
+
+            {
+              <svg
+                onClick={() => {
+                  const element = document.querySelector("#product-detail");
+                  if (element) {
+                    element.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                  }
+                }}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="md:hidden sm:inline-block size-6 absolute -bottom-4 left-1/2 translate-x-[-50%] translate-y-[50%] text-gray-500 animate-bounce duration-3000"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5"
+                />
+              </svg>
+            }
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-gray-500 text-lg font-medium">
@@ -82,7 +117,7 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
         )}
         <Link
           href="/products"
-          className="absolute top-0 left-0 bg-black/70 text-white rounded-br-2xl p-2 hover:text-gray-700 hover:bg-gray-200 transition duration-300"
+          className="absolute top-0 left-0 bg-black/50 text-white rounded-br-2xl p-2 hover:text-gray-700 hover:bg-gray-200 transition duration-3000"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +136,7 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
         </Link>
       </Carousel>
 
-      <div className="md:w-1/2 md:pl-20">
+      <div className="md:w-1/2 md:pl-20" id="product-detail">
         <div className="relative flex items-center">
           <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1>
         </div>
@@ -135,28 +170,30 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
           <Button variant="outline" onClick={() => removeItem(product.id)}>
             –
           </Button>
-          <span className="text-lg font-semibold">{quantity}</span>
+          <span className="text-lg font-semibold ">{quantity}</span>
           <Button onClick={onAddItem}>+</Button>
         </div>
-        <Link href={"/checkout"}>
-          <Button className="mt-6 uppercase font-bold tracking-wider bg-blue-600 text-white cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="sm:size-4 size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
-              />
-            </svg>
-            Checkout
-          </Button>
-        </Link>
+
+        <Button
+          onClick={() => handleCheckout()}
+          className="mt-6 uppercase font-bold tracking-wider  attractive  text-white cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="sm:size-4 size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
+            />
+          </svg>
+          Checkout
+        </Button>
 
         {suggestions.length > 0 && (
           <div className="mt-8 ">

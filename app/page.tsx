@@ -21,7 +21,7 @@ export default async function Home() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 md:grid-cols-2 items-center justify-items-center gap-12 px-6 sm:px-12">
           <div className="w-full max-w-md space-y-6 text-center md:text-left">
             <h2 className=" text-3xl font-extrabold leading-tight tracking-tight text-gray-900 md:text-4xl lg:text-6xl">
-              Welcome to <span className="text-blue-600">EC Ecommerce</span>
+              Welcome <br /> <span className="main-color">MY BAGEL</span>
             </h2>
             <p className="sm:text-sm md:text-xs lg:text-2xl text-gray-600">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -31,7 +31,7 @@ export default async function Home() {
             <Button
               asChild
               variant="default"
-              className="rounded-full bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition"
+              className="rounded-full attractive px-6 py-3 text-white hover:bg-blue-700 transition"
             >
               <Link href="/products">Browse All Products</Link>
             </Button>

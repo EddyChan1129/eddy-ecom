@@ -82,7 +82,7 @@ export const Navbar = () => {
           {isAdmin && (
             <Link
               href="/admin/cms"
-              className="text-blue-700 font-semibold hover:underline"
+              className="text-blue-700 main-color font-semibold hover:underline"
             >
               CMS
             </Link>
@@ -92,14 +92,14 @@ export const Navbar = () => {
         <div className="flex items-center space-x-4">
           {!isLogin ? (
             <Link href="/sign-in" className="hidden md:block">
-              <Button className="text-xs rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-4 transition uppercase">
+              <Button className="text-xs rounded-xl attractive hover:bg-blue-700 text-white px-4 transition uppercase">
                 Login
               </Button>
             </Link>
           ) : (
             <Button
               onClick={logout}
-              className="text-xs hidden md:block rounded-full bg-gray-800 hover:bg-gray-700 text-white px-4 transition uppercase"
+              className="text-xs hidden md:block rounded-full attractive hover:bg-gray-700 text-white px-4 transition uppercase"
             >
               Logout
             </Button>
@@ -171,7 +171,7 @@ export const Navbar = () => {
             ) : (
               <li>
                 <Button
-                  className="font-semibold"
+                  className="font-semibold attractive"
                   onClick={() => {
                     setMobileOpen((prev) => !prev);
                     logout();
@@ -185,7 +185,7 @@ export const Navbar = () => {
               <li>
                 <Link
                   href="/admin/cms"
-                  className="font-semibold text-blue-600"
+                  className="font-semibold main-color attractive"
                   onClick={() => setMobileOpen(false)}
                 >
                   CMS

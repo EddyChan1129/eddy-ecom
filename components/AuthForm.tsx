@@ -110,7 +110,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
   return (
     <div className="card-border lg:min-w-[566px]">
-
       <div className="flex flex-col gap-6 card py-14 px-10">
         <div className="flex flex-row gap-2 justify-center">
           <Image
@@ -120,7 +119,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
             width={380}
             className="h-auto rounded-full" // Tailwind 寫法
           />
-
         </div>
 
         <h2 className="text-3xl font-bold text-center uppercase tracking-wide text-gray-700 md:text-4xl lg:text-6xl">
