@@ -177,7 +177,7 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
                   setCurrentPage(1); // reset to page 1 when searching
                 }}
                 placeholder="Search products..."
-                className="w-full max-w-sm rounded border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full max-w-sm rounded border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400 placeholder:text-xs"
               />
               <SheetClose asChild>
                 <Button
