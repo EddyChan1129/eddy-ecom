@@ -135,7 +135,7 @@ export const ProductCard = ({ product, isAdmin }: ProductCardProps) => {
       </div>
       <CardContent className="p-4 flex-grow flex flex-col justify-between">
         {product.description && (
-          <p className="text-gray-600 text-sm mb-1 text-nowrap text-ellipsis hover:text-wrap overflow-hidden ">
+          <p className="text-gray-600 text-sm mb-1 w-full max-h-[1.25rem] overflow-hidden text-ellipsis whitespace-nowrap transition-all duration-[1500ms] ease-in-out hover:whitespace-normal hover:max-h-[10rem]">
             {product.description}
           </p>
         )}

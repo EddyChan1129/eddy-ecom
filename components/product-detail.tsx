@@ -142,7 +142,7 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
         </div>
 
         {product.category && (
-          <p className="inline-block uppercase w-1/2 text-center my-5 px-3 py-1 rounded-full border border-amber-300 bg-amber-50 text-amber-700 text-sm font-medium shadow-sm hover:bg-amber-100 transition-colors duration-200">
+          <p className="inline-block uppercase text-center my-5 px-3 py-1 rounded-full border border-amber-300 bg-amber-50 text-amber-700 text-sm font-medium shadow-sm hover:bg-amber-100 transition-colors duration-200">
             {product.category}
           </p>
         )}
@@ -152,7 +152,7 @@ export const ProductDetail = ({ product, suggestions }: Props) => {
             {product.tags.map((tag, index) => (
               <span
                 key={index}
-                className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full shadow-sm hover:bg-gray-200 transition-colors duration-200"
+                className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full shadow-sm hover:bg-gray-200 t transition-all duration-200"
               >
                 #{tag}
               </span>
