@@ -101,165 +101,276 @@ export default function EditProductClient({ productId }: Props) {
 
   if (loading)
     return (
-      <p>
-        {" "}
-        Loading...{" "}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-          />
-        </svg>
-      </p>
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-amber-900">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-amber-200 border-t-amber-600" />
+        <p className="text-sm font-medium">Loading product…</p>
+      </div>
     );
 
   return (
-    <div className="p-8 max-w-xl mx-auto space-y-4 flex flex-col">
-      <Input
-        value={form.name}
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-        placeholder="Product Name"
-      />
-      <Textarea
-        value={form.description}
-        onChange={(e) => setForm({ ...form, description: e.target.value })}
-        placeholder="Product Description"
-      />
-      <Input
-        type="number"
-        value={form.price}
-        onChange={(e) =>
-          setForm({ ...form, price: parseFloat(e.target.value) })
-        }
-        placeholder="Product Price"
-      />
-      <Select
-        value={form.category}
-        onValueChange={(value) => setForm({ ...form, category: value })}
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select Category" />
-        </SelectTrigger>
-        <SelectContent>
-          {categories.map((cat) => (
-            <SelectItem key={cat} value={cat}>
-              {cat}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+    <div className="space-y-10">
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-100 via-white to-orange-100 px-6 py-10 shadow-lg">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -left-6 top-6 h-28 w-28 rounded-full bg-orange-200/60 blur-3xl" />
+          <div className="absolute right-4 bottom-6 h-32 w-32 rounded-full bg-amber-300/50 blur-3xl" />
+        </div>
+        <div className="relative space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-800">
+            Edit Product
+          </p>
+          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+            Refresh details and keep your shelf current.
+          </h1>
+          <p className="text-base text-gray-700 sm:max-w-2xl">
+            Update copy, pricing, inventory state, and imagery in one place.
+            Changes reflect immediately across the storefront.
+          </p>
+        </div>
+      </section>
 
-      <Label>Tags</Label>
-      <div className="flex flex-wrap gap-2">
-        {defaultTags.map((tag) => (
-          <Label key={tag} className="flex items-center space-x-2">
-            <Checkbox
-              checked={form.tags.includes(tag)}
-              onCheckedChange={() => handleTagChange(tag)}
-            />
-            <span className="text-sm">{tag}</span>
-          </Label>
-        ))}
-      </div>
+      <section className="relative overflow-hidden rounded-3xl border border-amber-100 bg-white/80 p-6 shadow-xl backdrop-blur">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -right-10 top-0 h-40 w-40 rounded-full bg-amber-200/40 blur-3xl" />
+          <div className="absolute left-6 bottom-0 h-32 w-32 rounded-full bg-orange-200/40 blur-3xl" />
+        </div>
 
-      <Label className="flex items-center space-x-2">
-        <Checkbox
-          checked={form.inSale}
-          onCheckedChange={(v) => setForm({ ...form, inSale: v === true })}
-        />
-        <span>On Sale</span>
-      </Label>
+        <div className="relative grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="flex flex-col gap-5 rounded-2xl border border-amber-100/80 bg-white/90 p-6 shadow-sm">
+            <div className="space-y-1">
+              <Label className="text-sm font-semibold text-amber-900">
+                Product name
+              </Label>
+              <Input
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="Sesame Crunch"
+                className="h-11 border-amber-200 focus-visible:ring-amber-500"
+              />
+            </div>
 
-      <Label className="flex items-center space-x-2">
-        <Checkbox
-          checked={form.inStock}
-          onCheckedChange={(v) => setForm({ ...form, inStock: v === true })}
-        />
-        <span>In Stock</span>
-      </Label>
+            <div className="space-y-1">
+              <Label className="text-sm font-semibold text-amber-900">
+                Description
+              </Label>
+              <Textarea
+                value={form.description}
+                onChange={(e) =>
+                  setForm({ ...form, description: e.target.value })
+                }
+                placeholder="Share the flavor story, ingredients, and serve suggestions."
+                rows={3}
+                className="border-amber-200 focus-visible:ring-amber-500"
+              />
+            </div>
 
-      <div className="grid grid-cols-2 gap-2">
-        {form.images.map((img) => (
-          <div key={img.public_id} className="relative">
-            <CldImage
-              src={img.public_id}
-              width={300}
-              height={300}
-              alt="upload image"
-              priority
-              className="w-full h-32 object-cover"
-            />
-            <button
-              type="button"
-              onClick={() => handleDeleteImage(img.public_id)}
-              className="absolute top-0 right-0 bg-red-500 text-white p-1"
-            >
-              ✕
-            </button>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-1">
+                <Label className="text-sm font-semibold text-amber-900">
+                  Price (CAD)
+                </Label>
+                <Input
+                  type="number"
+                  value={form.price}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      price: parseFloat(e.target.value || "0"),
+                    })
+                  }
+                  placeholder="4.50"
+                  className="h-11 border-amber-200 focus-visible:ring-amber-500"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-sm font-semibold text-amber-900">
+                  Category
+                </Label>
+                <Select
+                  value={form.category}
+                  onValueChange={(value) => setForm({ ...form, category: value })}
+                >
+                  <SelectTrigger className="h-11 w-full border-amber-200 focus:ring-amber-500">
+                    <SelectValue placeholder="Select Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat} value={cat}>
+                        {cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-sm font-semibold text-amber-900">
+                Tags
+              </Label>
+              <div className="flex flex-wrap gap-2">
+                {defaultTags.map((tag) => (
+                  <Label
+                    key={tag}
+                    className="flex items-center gap-2 rounded-full border border-amber-100 bg-amber-50 px-3 py-2 text-sm text-amber-900 shadow-sm"
+                  >
+                    <Checkbox
+                      checked={form.tags.includes(tag)}
+                      onCheckedChange={() => handleTagChange(tag)}
+                      className="border-amber-300"
+                    />
+                    <span>{tag}</span>
+                  </Label>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="flex items-center gap-3 rounded-xl border border-amber-100 bg-amber-50/70 px-4 py-3">
+                <Checkbox
+                  id="sale"
+                  checked={form.inSale}
+                  onCheckedChange={(v) => setForm({ ...form, inSale: v === true })}
+                  className="border-amber-300"
+                />
+                <label htmlFor="sale" className="text-sm font-semibold text-amber-900">
+                  Feature on sale
+                </label>
+              </div>
+              <div className="flex items-center gap-3 rounded-xl border border-amber-100 bg-amber-50/70 px-4 py-3">
+                <Checkbox
+                  id="stock"
+                  checked={form.inStock}
+                  onCheckedChange={(v) => setForm({ ...form, inStock: v === true })}
+                  className="border-amber-300"
+                />
+                <label htmlFor="stock" className="text-sm font-semibold text-amber-900">
+                  In stock
+                </label>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-amber-900">Images</p>
+                <p className="text-xs text-gray-600">
+                  Upload multiple shots—first image appears as the thumbnail.
+                </p>
+              </div>
+              <CldUploadWidget
+                uploadPreset="preset1"
+                options={{
+                  folder: "sample",
+                  multiple: true,
+                }}
+                onSuccess={(result, _widget) => {
+                  const info = result.info as {
+                    public_id: string;
+                    version: number;
+                    signature: string;
+                  };
+
+                  setForm((prev) => ({
+                    ...prev,
+                    images: [
+                      ...prev.images,
+                      {
+                        public_id: info.public_id,
+                        version: info.version.toString(),
+                        signature: info.signature,
+                      },
+                    ],
+                  }));
+                }}
+                onQueuesEnd={(_result, { widget }) => {
+                  widget.close();
+                }}
+                signatureEndpoint="/admin/upload-photo"
+              >
+                {({ open }) => (
+                  <Button
+                    type="button"
+                    className="rounded-full bg-amber-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-amber-700"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      open();
+                    }}
+                  >
+                    Upload image(s)
+                  </Button>
+                )}
+              </CldUploadWidget>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              {form.images.map((img) => (
+                <div
+                  key={img.public_id}
+                  className="group relative h-32 w-32 overflow-hidden rounded-xl border border-amber-100 shadow-sm"
+                >
+                  <CldImage
+                    src={img.public_id}
+                    width={300}
+                    height={300}
+                    alt="upload image"
+                    priority
+                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                  />
+                  <Button
+                    type="button"
+                    onClick={() => handleDeleteImage(img.public_id)}
+                    className="absolute right-2 top-2 rounded-full bg-red-500 px-2 py-1 text-xs text-white shadow"
+                  >
+                    ✕
+                  </Button>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                type="button"
+                onClick={handleSave}
+                className="rounded-full bg-gradient-to-r from-amber-600 to-orange-500 px-6 py-2 font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                Save changes
+              </Button>
+              <p className="text-xs text-gray-500">
+                Double-check price, category, and hero image before publishing.
+              </p>
+            </div>
           </div>
-        ))}
-      </div>
 
-      <CldUploadWidget
-        uploadPreset="preset1"
-        options={{
-          folder: "sample",
-          multiple: true,
-        }}
-        onSuccess={(result, _widget) => {
-          const info = result.info as {
-            public_id: string;
-            version: number;
-            signature: string;
-          };
-
-          console.log("Upload success:", info);
-
-          setForm((prev) => ({
-            ...prev,
-            images: [
-              ...prev.images,
-              {
-                public_id: info.public_id,
-                version: info.version.toString(),
-                signature: info.signature,
-              },
-            ],
-          }));
-        }}
-        onQueuesEnd={(_result, { widget }) => {
-          widget.close();
-        }}
-        signatureEndpoint="/admin/upload-photo"
-      >
-        {({ open }) => (
-          <Button
-            type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-            onClick={(e) => {
-              e.preventDefault();
-              open();
-            }}
-          >
-            Upload Image(s)
-          </Button>
-        )}
-      </CldUploadWidget>
-
-      <Button
-        onClick={handleSave}
-        className="bg-green-600 text-white px-4 py-2"
-      >
-        Save
-      </Button>
+          <div className="space-y-4 rounded-2xl border border-amber-100 bg-amber-50/70 p-6 shadow-inner">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-800">
+              Quick guidance
+            </p>
+            <ul className="space-y-3 text-sm text-gray-800">
+              <li className="flex gap-2">
+                <span className="mt-1 h-2 w-2 rounded-full bg-amber-600" />
+                Keep descriptions under 240 characters for clean product cards.
+              </li>
+              <li className="flex gap-2">
+                <span className="mt-1 h-2 w-2 rounded-full bg-amber-600" />
+                Use 1200×1200 imagery for crisp storefront displays.
+              </li>
+              <li className="flex gap-2">
+                <span className="mt-1 h-2 w-2 rounded-full bg-amber-600" />
+                Tag seasonal items to surface them in featured carousels.
+              </li>
+              <li className="flex gap-2">
+                <span className="mt-1 h-2 w-2 rounded-full bg-amber-600" />
+                “In stock” drives add-to-cart visibility; toggle off when sold out.
+              </li>
+            </ul>
+            <div className="rounded-xl border border-amber-200 bg-white/70 p-4 shadow-sm">
+              <p className="text-sm font-semibold text-amber-900">Live preview</p>
+              <p className="text-xs text-gray-700">
+                First uploaded photo becomes the thumbnail. Remove and re-upload to reorder.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

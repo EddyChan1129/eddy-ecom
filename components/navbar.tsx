@@ -68,7 +68,7 @@ export const Navbar = () => {
             Home
           </Link>
           <Link
-            href="/"
+            href="/about"
             className="hover:text-blue-600 hover:underline transition"
           >
             About us
@@ -80,7 +80,7 @@ export const Navbar = () => {
             Menu
           </Link>
           <Link
-            href="/"
+            href="/faq"
             className="hover:text-blue-600 hover:underline transition"
           >
             FAQ
@@ -139,7 +139,7 @@ export const Navbar = () => {
           <ul className="flex flex-col p-6 space-y-4 text-gray-800 text-base">
             <li>
               <Link
-                href="/"
+                href="/about"
                 className="hover:text-blue-600"
                 onClick={() => setMobileOpen((prev) => !prev)}
               >
@@ -166,7 +166,7 @@ export const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/"
+                href="/faq"
                 className="hover:text-blue-600"
                 onClick={() => setMobileOpen((prev) => !prev)}
               >
