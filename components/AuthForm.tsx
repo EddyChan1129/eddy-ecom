@@ -18,7 +18,7 @@ import {
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 
-import { signIn, signOut, signUp } from "@/lib/actions/auth.action";
+import { signIn, signUp } from "@/lib/actions/auth.action";
 import FormField from "./FormField";
 
 const authFormSchema = (type: FormType) => {
@@ -26,6 +26,23 @@ const authFormSchema = (type: FormType) => {
     name: type === "sign-up" ? z.string().min(3) : z.string().optional(),
     email: z.string().email(),
     password: z.string().min(3),
+    phone:
+      type === "sign-up"
+        ? z
+            .string()
+            .min(7, "Add a phone number so we can reach you at pickup.")
+        : z.string().optional(),
+    location:
+      type === "sign-up"
+        ? z
+            .string()
+            .min(2, "Tell us your neighborhood for smoother pickup.")
+        : z.string().optional(),
+    pickupPreference:
+      type === "sign-up"
+        ? z.enum(["pickup", "delivery", "undecided"])
+        : z.enum(["pickup", "delivery", "undecided"]).optional(),
+    marketingOptIn: z.boolean().optional(),
   });
 };
 
@@ -39,15 +56,25 @@ const AuthForm = ({ type }: { type: FormType }) => {
       name: "",
       email: "",
       password: "",
+      phone: "",
+      location: "",
+      pickupPreference: "pickup",
+      marketingOptIn: true,
     },
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       if (type === "sign-up") {
-        alert("Submitting form");
-
-        const { name, email, password } = data;
+        const {
+          name,
+          email,
+          password,
+          phone,
+          location,
+          pickupPreference,
+          marketingOptIn,
+        } = data;
 
         const userCredential = await createUserWithEmailAndPassword(
           auth,
@@ -60,9 +87,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
           name: name!,
           email,
           password,
+          phone: phone!,
+          location: location!,
+          pickupPreference: pickupPreference!,
+          marketingOptIn: !!marketingOptIn,
         });
-
-        alert("result");
 
         if (!result.success) {
           toast.error(result.message);
@@ -148,13 +177,55 @@ const AuthForm = ({ type }: { type: FormType }) => {
               type="email"
             />
 
-            <FormField
-              control={form.control}
-              name="password"
-              label="Password"
-              placeholder="Enter your password"
-              type="password"
-            />
+          <FormField
+            control={form.control}
+            name="password"
+            label="Password"
+            placeholder="Enter your password"
+            type="password"
+          />
+
+            {!isSignIn && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  label="Phone"
+                  placeholder="+1 555 123 4567"
+                  type="tel"
+                />
+                <FormField
+                  control={form.control}
+                  name="location"
+                  label="Neighborhood / City"
+                  placeholder="Toronto - Queen St. W"
+                  type="text"
+                />
+                <div className="form-item space-y-2">
+                  <label className="label" htmlFor="pickupPreference">
+                    Pickup Preference
+                  </label>
+                  <select
+                    id="pickupPreference"
+                    className="input"
+                    {...form.register("pickupPreference")}
+                  >
+                    <option value="pickup">In-store pickup</option>
+                    <option value="delivery">Delivery</option>
+                    <option value="undecided">Decide later</option>
+                  </select>
+                </div>
+                <label className="flex items-center gap-3 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-sm text-gray-700">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 accent-amber-600"
+                    defaultChecked
+                    {...form.register("marketingOptIn")}
+                  />
+                  Get product drops and pickup reminders
+                </label>
+              </>
+            )}
 
             <Button
               className="btn cursor-pointer attractive uppercase tracking-wider"

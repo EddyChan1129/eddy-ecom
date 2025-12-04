@@ -27,7 +27,15 @@ export async function setSessionCookie(idToken: string) {
 }
 
 export async function signUp(params: SignUpParams) {
-  const { uid, name, email } = params;
+  const {
+    uid,
+    name,
+    email,
+    phone,
+    location,
+    pickupPreference,
+    marketingOptIn = false,
+  } = params;
 
   try {
     // check if user exists in db
@@ -42,8 +50,12 @@ export async function signUp(params: SignUpParams) {
     await db.collection("users").doc(uid).set({
       name,
       email,
-      // profileURL,
-      // resumeURL,
+      phone,
+      location,
+      pickupPreference,
+      marketingOptIn,
+      role: "user",
+      createdAt: new Date().toISOString(),
     });
 
     return {

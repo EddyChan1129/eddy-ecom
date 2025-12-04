@@ -102,6 +102,13 @@ export const Navbar = () => {
         <div className="flex items-center space-x-4">
           <Button
             variant="outline"
+            className="flex items-center gap-2 rounded-full border-amber-300 text-amber-900 md:hidden text-[11px] font-semibold uppercase tracking-wide px-3 py-2"
+            onClick={() => toggleAdminMode()}
+          >
+            {adminMode ? "Admin view" : "Client view"}
+          </Button>
+          <Button
+            variant="outline"
             className="hidden md:flex items-center gap-2 rounded-full border-amber-300 text-amber-900"
             onClick={() => toggleAdminMode()}
           >

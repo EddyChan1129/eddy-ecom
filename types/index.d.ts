@@ -3,6 +3,11 @@ interface User {
   name: string;
   email: string;
   role?: "admin" | "user"; // ✅ 加入這行，optional string enum
+  phone?: string;
+  location?: string;
+  pickupPreference?: "pickup" | "delivery" | "undecided";
+  marketingOptIn?: boolean;
+  createdAt?: string;
 }
 
 interface SignInParams {
@@ -15,6 +20,10 @@ interface SignUpParams {
   name: string;
   email: string;
   password: string;
+  phone: string;
+  location: string;
+  pickupPreference: "pickup" | "delivery" | "undecided";
+  marketingOptIn?: boolean;
 }
 
 type FormType = "sign-in" | "sign-up";
