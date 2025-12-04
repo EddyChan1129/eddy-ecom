@@ -42,7 +42,7 @@ export default function AboutPage() {
         ease: "power3.out",
       });
 
-      gsap.utils.toArray(sectionRefs.current).forEach((section, index) => {
+      sectionRefs.current.forEach((section, index) => {
         if (!section) return;
         gsap.from(section, {
           scrollTrigger: {

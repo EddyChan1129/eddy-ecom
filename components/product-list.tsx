@@ -34,6 +34,7 @@ import { Input } from "./ui/input";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { Label } from "./ui/label";
+import { useAdminStore } from "@/store/auth-store";
 
 interface ProductListProps {
   products: Product[];
@@ -48,6 +49,8 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [open, setOpen] = useState(false);
+  const adminMode = useAdminStore((state) => state.adminMode);
+  const showAdminTools = isAdmin && adminMode;
 
   const filteredProducts = products.filter((product) => {
     const term = searchTerm.toLowerCase();
@@ -214,7 +217,7 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
       >
         {paginatedProducts.map((product) => (
           <li key={product.id}>
-            <ProductCard product={product} isAdmin={isAdmin} />
+            <ProductCard product={product} isAdmin={showAdminTools} />
           </li>
         ))}
       </ul>

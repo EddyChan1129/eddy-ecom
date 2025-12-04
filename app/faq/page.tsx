@@ -77,7 +77,7 @@ export default function FaqPage() {
         ease: "power3.out",
       });
 
-      gsap.utils.toArray(cardsRef.current).forEach((card, index) => {
+      cardsRef.current.forEach((card, index) => {
         if (!card) return;
         gsap.from(card, {
           scrollTrigger: {

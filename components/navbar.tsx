@@ -25,6 +25,9 @@ export const Navbar = () => {
   const setIsLogin = useAuthStore((state) => state.setLoggedIn);
   const isAdmin = useAdminStore((state) => state.isAdmin);
   const setIsAdmin = useAdminStore((state) => state.setIsAdmin);
+  const adminMode = useAdminStore((state) => state.adminMode);
+  const toggleAdminMode = useAdminStore((state) => state.toggleAdminMode);
+  const setAdminMode = useAdminStore((state) => state.setAdminMode);
 
   // Check login & admin status once on mount
   useEffect(() => {
@@ -43,6 +46,7 @@ export const Navbar = () => {
     await signOut();
     setIsLogin(false); // ✅ 即時登出
     setIsAdmin(false); // ✅ 清除 admin 狀態
+    setAdminMode(false);
   };
 
   return (
@@ -85,7 +89,7 @@ export const Navbar = () => {
           >
             FAQ
           </Link>
-          {isAdmin && (
+          {isAdmin && adminMode && (
             <Link
               href="/admin/cms"
               className="text-blue-700 main-color font-semibold hover:underline border border-yellow-500 rounded-md px-4 py-2 hover:bg-gray-100"
@@ -96,6 +100,17 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center space-x-4">
+          {isAdmin && (
+            <Button
+              variant="outline"
+              className="hidden md:flex items-center gap-2 rounded-full border-amber-300 text-amber-900"
+              onClick={() => toggleAdminMode()}
+            >
+              <span className="text-xs font-semibold uppercase tracking-wide">
+                {adminMode ? "Admin view" : "Client view"}
+              </span>
+            </Button>
+          )}
           {!isLogin ? (
             <Link href="/sign-in" className="hidden md:block">
               <Button className="text-xs rounded-xl attractive hover:bg-blue-700 text-white px-4 transition uppercase">
@@ -139,7 +154,7 @@ export const Navbar = () => {
           <ul className="flex flex-col p-6 space-y-4 text-gray-800 text-base">
             <li>
               <Link
-                href="/about"
+                href="/"
                 className="hover:text-blue-600"
                 onClick={() => setMobileOpen((prev) => !prev)}
               >
@@ -148,7 +163,7 @@ export const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/"
+                href="/about"
                 className="hover:text-blue-600"
                 onClick={() => setMobileOpen((prev) => !prev)}
               >
@@ -173,7 +188,7 @@ export const Navbar = () => {
                 FAQ
               </Link>
             </li>
-            {isAdmin && (
+            {isAdmin && adminMode && (
               <li>
                 <Link
                   href="/admin/cms"
@@ -196,15 +211,29 @@ export const Navbar = () => {
               </li>
             ) : (
               <li>
-                <Button
-                  className="font-semibold attractive"
-                  onClick={() => {
-                    setMobileOpen((prev) => !prev);
-                    logout();
-                  }}
-                >
-                  Logout
-                </Button>
+                <div className="flex flex-col gap-3">
+                  {isAdmin && (
+                    <Button
+                      variant="outline"
+                      className="rounded-full border-amber-300 text-amber-900"
+                      onClick={() => {
+                        toggleAdminMode();
+                        setMobileOpen(false);
+                      }}
+                    >
+                      {adminMode ? "Switch to client view" : "Switch to admin view"}
+                    </Button>
+                  )}
+                  <Button
+                    className="font-semibold attractive"
+                    onClick={() => {
+                      setMobileOpen((prev) => !prev);
+                      logout();
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </div>
               </li>
             )}
           </ul>
