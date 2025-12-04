@@ -89,7 +89,7 @@ export const Navbar = () => {
           >
             FAQ
           </Link>
-          {isAdmin && adminMode && (
+          {adminMode && (
             <Link
               href="/admin/cms"
               className="text-blue-700 main-color font-semibold hover:underline border border-yellow-500 rounded-md px-4 py-2 hover:bg-gray-100"
@@ -100,17 +100,15 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-          {isAdmin && (
-            <Button
-              variant="outline"
-              className="hidden md:flex items-center gap-2 rounded-full border-amber-300 text-amber-900"
-              onClick={() => toggleAdminMode()}
-            >
-              <span className="text-xs font-semibold uppercase tracking-wide">
-                {adminMode ? "Admin view" : "Client view"}
-              </span>
-            </Button>
-          )}
+          <Button
+            variant="outline"
+            className="hidden md:flex items-center gap-2 rounded-full border-amber-300 text-amber-900"
+            onClick={() => toggleAdminMode()}
+          >
+            <span className="text-xs font-semibold uppercase tracking-wide">
+              {adminMode ? "Admin view" : "Client view"}
+            </span>
+          </Button>
           {!isLogin ? (
             <Link href="/sign-in" className="hidden md:block">
               <Button className="text-xs rounded-xl attractive hover:bg-blue-700 text-white px-4 transition uppercase">
@@ -188,7 +186,7 @@ export const Navbar = () => {
                 FAQ
               </Link>
             </li>
-            {isAdmin && adminMode && (
+            {adminMode && (
               <li>
                 <Link
                   href="/admin/cms"
@@ -212,18 +210,16 @@ export const Navbar = () => {
             ) : (
               <li>
                 <div className="flex flex-col gap-3">
-                  {isAdmin && (
-                    <Button
-                      variant="outline"
-                      className="rounded-full border-amber-300 text-amber-900"
-                      onClick={() => {
-                        toggleAdminMode();
-                        setMobileOpen(false);
-                      }}
-                    >
-                      {adminMode ? "Switch to client view" : "Switch to admin view"}
-                    </Button>
-                  )}
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-amber-300 text-amber-900"
+                    onClick={() => {
+                      toggleAdminMode();
+                      setMobileOpen(false);
+                    }}
+                  >
+                    {adminMode ? "Switch to client view" : "Switch to admin view"}
+                  </Button>
                   <Button
                     className="font-semibold attractive"
                     onClick={() => {

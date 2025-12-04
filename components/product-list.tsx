@@ -50,7 +50,7 @@ export const ProductList = ({ products, isAdmin }: ProductListProps) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [open, setOpen] = useState(false);
   const adminMode = useAdminStore((state) => state.adminMode);
-  const showAdminTools = isAdmin && adminMode;
+  const showAdminTools = adminMode;
 
   const filteredProducts = products.filter((product) => {
     const term = searchTerm.toLowerCase();
