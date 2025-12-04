@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { auth } from "@/firebase/client";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAdminStore, useAuthStore } from "@/store/auth-store";
 import { isAdmin } from "@/lib/actions/auth.action";
@@ -48,6 +49,7 @@ const authFormSchema = (type: FormType) => {
 
 const AuthForm = ({ type }: { type: FormType }) => {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -65,6 +67,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
+      setIsSubmitting(true);
       if (type === "sign-up") {
         const {
           name,
@@ -132,6 +135,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
     } catch (error) {
       console.log(error);
       toast.error(`There was an error: ${error}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -230,9 +235,19 @@ const AuthForm = ({ type }: { type: FormType }) => {
             <Button
               className="btn cursor-pointer attractive uppercase tracking-wider"
               type="submit"
+              disabled={isSubmitting}
             >
-              {isSignIn ? "Sign In" : "Create an Account"}
+              {isSubmitting
+                ? isSignIn
+                  ? "Signing in..."
+                  : "Creating account..."
+                : isSignIn
+                  ? "Sign In"
+                  : "Create an Account"}
             </Button>
+            {!isSignIn && isSubmitting && (
+              <p className="text-xs text-gray-500">Creating your profile...</p>
+            )}
           </form>
         </Form>
 
