@@ -177,7 +177,9 @@ export default function FaqPage() {
             return (
               <div
                 key={item.question}
-                ref={(el) => (cardsRef.current[index] = el)}
+                ref={(el) => {
+                  cardsRef.current[index] = el;
+                }}
                 className="rounded-2xl border border-amber-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
               >
                 <button
@@ -215,7 +217,9 @@ export default function FaqPage() {
 
       <section
         className="overflow-hidden rounded-3xl bg-gradient-to-r from-amber-600 via-orange-500 to-amber-500 px-8 py-10 text-white shadow-xl"
-        ref={(el) => (cardsRef.current[faqs.length] = el)}
+        ref={(el) => {
+          cardsRef.current[faqs.length] = el;
+        }}
       >
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-3">

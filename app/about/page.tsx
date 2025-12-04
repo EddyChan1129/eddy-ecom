@@ -108,8 +108,10 @@ export default function AboutPage() {
                 {stats.map((stat, index) => (
                   <div
                     key={stat.label}
-                    className="rounded-xl border border-amber-100/70 bg-amber-50/80 px-4 py-5 text-center shadow-sm"
-                    ref={(el) => (sectionRefs.current[index] = el)}
+                  className="rounded-xl border border-amber-100/70 bg-amber-50/80 px-4 py-5 text-center shadow-sm"
+                  ref={(el) => {
+                    sectionRefs.current[index] = el;
+                  }}
                   >
                     <div className="text-2xl font-bold text-amber-800">
                       {stat.value}
@@ -136,7 +138,9 @@ export default function AboutPage() {
 
       <section
         className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]"
-        ref={(el) => (sectionRefs.current[stats.length] = el)}
+        ref={(el) => {
+          sectionRefs.current[stats.length] = el;
+        }}
       >
         <div className="space-y-4">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-amber-800">
@@ -214,7 +218,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section ref={(el) => (sectionRefs.current[stats.length + 1] = el)}>
+      <section
+        ref={(el) => {
+          sectionRefs.current[stats.length + 1] = el;
+        }}
+      >
         <p className="text-sm font-semibold uppercase tracking-[0.25em] text-amber-800">
           What drives us
         </p>
@@ -226,9 +234,9 @@ export default function AboutPage() {
             <div
               key={item.title}
               className="group relative overflow-hidden rounded-2xl border border-amber-100 bg-white p-6 shadow-md transition"
-              ref={(el) =>
-                (sectionRefs.current[stats.length + 2 + index] = el)
-              }
+              ref={(el) => {
+                sectionRefs.current[stats.length + 2 + index] = el;
+              }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-amber-100/0 via-amber-100/40 to-orange-100/0 opacity-0 transition duration-500 group-hover:opacity-100" />
               <div className="relative space-y-3">
@@ -245,9 +253,9 @@ export default function AboutPage() {
 
       <section
         className="overflow-hidden rounded-3xl bg-gradient-to-r from-amber-600 via-orange-500 to-amber-500 px-8 py-10 text-white shadow-xl"
-        ref={(el) =>
-          (sectionRefs.current[stats.length + highlights.length + 2] = el)
-        }
+        ref={(el) => {
+          sectionRefs.current[stats.length + highlights.length + 2] = el;
+        }}
       >
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-4">
