@@ -28,8 +28,8 @@ const stats = [
 ];
 
 export default function AboutPage() {
-  const heroRef = useRef<HTMLDivElement | null>(null);
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const heroRef = useRef<HTMLElement | null>(null);
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);

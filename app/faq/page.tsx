@@ -64,8 +64,8 @@ const faqs: FaqItem[] = [
 
 export default function FaqPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const heroRef = useRef<HTMLDivElement | null>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const heroRef = useRef<HTMLElement | null>(null);
+  const cardsRef = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
